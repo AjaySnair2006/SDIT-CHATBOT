@@ -218,8 +218,12 @@ class ResponseGenerator:
                 chunk for chunk in top_chunks
                 if chunk.get("category") == "events"
             ]
+            official_event_chunks = [
+                chunk for chunk in event_chunks
+                if "official events" in chunk.get("title", "").lower()
+            ]
             best = max(
-                event_chunks or top_chunks,
+                official_event_chunks or event_chunks or top_chunks,
                 key=lambda chunk: chunk.get("score", 0.0)
             )
         else:

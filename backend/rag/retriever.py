@@ -133,6 +133,8 @@ class KnowledgeRetriever:
             lower_name = filename.lower()
             if "admission" in lower_name:
                 cat = "admissions"
+            elif "event" in lower_name:
+                cat = "events"
             elif "course" in lower_name:
                 cat = "courses"
             elif "facility" in lower_name or "campus" in lower_name:
@@ -298,6 +300,16 @@ class KnowledgeRetriever:
 
         # Sort indices by score descending
         sorted_indices = np.argsort(boosted_scores)[::-1]
+        if is_event_query:
+            official_event_indices = [
+                idx for idx, chunk in enumerate(self.all_chunks)
+                if chunk.get("category") == "events"
+                and "official events" in chunk.get("title", "").lower()
+            ]
+            sorted_indices = np.array(
+                official_event_indices
+                + [idx for idx in sorted_indices if idx not in official_event_indices]
+            )
         top_indices = sorted_indices[:top_k]
 
         top_chunks = []
