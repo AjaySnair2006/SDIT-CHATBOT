@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import AppShell from "@/components/AppShell";
+import { renderMarkdown } from "@/lib/markdown";
 
 interface Message {
   id: number;
@@ -55,7 +56,8 @@ export default function ChatPage() {
   ) => {
     event.preventDefault();
 
-    const question = input.trim();
+    const formValue = new FormData(event.currentTarget).get("message");
+    const question = (typeof formValue === "string" ? formValue : input).trim();
 
     if (!question || loading) {
       return;
@@ -288,9 +290,11 @@ export default function ChatPage() {
                   `}
                 >
 
-                  <p className="whitespace-pre-wrap text-sm leading-6">
-                    {message.content}
-                  </p>
+                  <div className="whitespace-pre-wrap text-sm leading-6">
+                    {message.role === "assistant"
+                      ? renderMarkdown(message.content)
+                      : message.content}
+                  </div>
 
 
                   {/* Category */}
@@ -408,6 +412,7 @@ export default function ChatPage() {
 
               <input
                 type="text"
+                name="message"
                 value={input}
                 onChange={(event) =>
                   setInput(event.target.value)
@@ -419,7 +424,7 @@ export default function ChatPage() {
 
               <button
                 type="submit"
-                disabled={!input.trim() || loading}
+                disabled={loading}
                 aria-label="Send message"
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#173c2d] text-white transition-all hover:bg-[#20543f] disabled:cursor-not-allowed disabled:opacity-40"
               >
