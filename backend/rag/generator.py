@@ -210,6 +210,18 @@ class ResponseGenerator:
                 placement_chunks or top_chunks,
                 key=lambda chunk: chunk.get("score", 0.0)
             )
+        elif question_words.intersection({
+            "event", "events", "happenings", "sambhram", "surabhi", "samshodhan",
+            "technospark", "graduation", "orientation", "farewell", "alumni", "award"
+        }) or "sports meet" in question.lower():
+            event_chunks = [
+                chunk for chunk in top_chunks
+                if chunk.get("category") == "events"
+            ]
+            best = max(
+                event_chunks or top_chunks,
+                key=lambda chunk: chunk.get("score", 0.0)
+            )
         else:
             best = top_chunks[0]
 
