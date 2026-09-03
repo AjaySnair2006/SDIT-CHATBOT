@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #F5F6F2;
+  color: #16213A;
+}
+
+html.dark body {
+  background-color: #0F1420;
+  color: #E7E9EE;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C9CBC2 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #C9CBC2;
+  border-radius: 999px;
+}
+html.dark *::-webkit-scrollbar-thumb {
+  background-color: #2A3346;
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #B8862B;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Rendered markdown inside AI messages */
+.prose-chat p {
+  margin: 0 0 0.6em 0;
+}
+.prose-chat p:last-child {
+  margin-bottom: 0;
+}
+.prose-chat ul,
+.prose-chat ol {
+  margin: 0.3em 0 0.6em 1.2em;
+  padding: 0;
+}
+.prose-chat li {
+  margin-bottom: 0.25em;
+}
+.prose-chat strong {
+  font-weight: 600;
+}
+.prose-chat code {
+  background: rgba(184, 134, 43, 0.12);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
