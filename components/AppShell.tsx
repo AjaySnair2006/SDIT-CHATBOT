@@ -20,6 +20,8 @@ import {
 interface AppShellProps {
   children: React.ReactNode;
   renderHeader?: (openMenu: () => void) => React.ReactNode;
+  fixedHeight?: boolean;
+  onNewChat?: () => void;
 }
 
 const NAVIGATION = [
