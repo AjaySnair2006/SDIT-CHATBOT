@@ -35,7 +35,8 @@ CATEGORY_KEYWORDS = {
     ],
     "campus": [
         "campus", "infrastructure", "location", "address", "where is", "reach",
-        "kenjar", "airport road", "environment", "area", "map", "layout"
+        "kenjar", "airport road", "environment", "area", "map", "maps", "google map",
+        "google maps", "location map", "college map", "campus location", "layout"
     ],
     "clubs": [
         "club", "clubs", "activity", "activities", "extracurricular", "fest",
