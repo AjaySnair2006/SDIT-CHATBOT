@@ -232,6 +232,10 @@ class KnowledgeRetriever:
         is_vision_only = "vision" in query_words and "mission" not in query_words
         is_history_only = "history" in query_words and "mission" not in query_words and "vision" not in query_words
         is_map_or_location = any(w in query_words for w in ["map", "location", "address", "directions", "where"])
+        is_recruiter_query = any(w in query_words for w in [
+            "recruit", "recruits", "recruiter", "recruiters", "hiring", "hire",
+            "employer", "employers", "company", "companies"
+        ])
 
         for idx, chunk in enumerate(self.all_chunks):
             chunk_kws = chunk.get("keywords", [])
@@ -240,6 +244,12 @@ class KnowledgeRetriever:
                 boosted_scores[idx] += 0.08 * len(overlap)
 
             chunk_title_lower = chunk.get("title", "").lower()
+
+            if is_recruiter_query:
+                if chunk.get("category") == "placements":
+                    boosted_scores[idx] += 0.35
+                if any(term in chunk_title_lower for term in ["recruit", "company", "placement"]):
+                    boosted_scores[idx] += 0.25
 
             if is_map_or_location:
                 if any(w in chunk_title_lower for w in ["map", "location", "address"]):

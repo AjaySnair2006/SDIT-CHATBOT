@@ -193,7 +193,22 @@ class ResponseGenerator:
         if not top_chunks:
             return FALLBACK_MESSAGE
 
-        best = top_chunks[0]
+        recruiter_terms = {
+            "recruit", "recruits", "recruiter", "recruiters", "hiring",
+            "hire", "employer", "employers", "company", "companies"
+        }
+        question_words = set(re.findall(r"\w+", question.lower()))
+        if question_words.intersection(recruiter_terms):
+            placement_chunks = [
+                chunk for chunk in top_chunks
+                if chunk.get("category") == "placements"
+            ]
+            best = max(
+                placement_chunks or top_chunks,
+                key=lambda chunk: chunk.get("score", 0.0)
+            )
+        else:
+            best = top_chunks[0]
 
         # If best chunk is FAQ or knowledge item with detailed content
         if best.get("type") in ("faq", "knowledge"):

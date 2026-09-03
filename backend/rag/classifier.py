@@ -20,7 +20,8 @@ CATEGORY_KEYWORDS = {
     ],
     "placements": [
         "placement", "placements", "recruit", "recruiter", "recruiters", "company",
-        "companies", "package", "salary", "lpa", "highest package", "average package",
+        "companies", "hiring", "hire", "employer", "employers", "job company",
+        "recruiting company", "recruiting companies", "company recruiters", "package", "salary", "lpa", "highest package", "average package",
         "training", "aptitude", "internship", "internships", "jobs", "job", "career",
         "t&p", "drive", "drives", "placed", "amazon", "infosys", "tcs", "wipro", "dxc", "icici"
     ],
