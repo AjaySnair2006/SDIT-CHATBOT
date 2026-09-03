@@ -9,7 +9,7 @@ const REQUEST_TIMEOUT_MS = 20000;
  * Set to true to develop the UI before the backend exists.
  * Phase 5 of the build turns this off and talks to the real /ask endpoint.
  */
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 const MOCK_RESPONSES: Record<string, ChatResponse> = {
   default: {
