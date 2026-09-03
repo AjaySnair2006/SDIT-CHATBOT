@@ -14,14 +14,14 @@ import {
   Building2,
   X,
   ChevronRight,
-  Activity,
+  MessageSquareWarning,
+  Star,
+  CircleHelp,
 } from "lucide-react";
 
 interface AppShellProps {
   children: React.ReactNode;
   renderHeader?: (openMenu: () => void) => React.ReactNode;
-  fixedHeight?: boolean;
-  onNewChat?: () => void;
 }
 
 const NAVIGATION = [
@@ -36,6 +36,7 @@ const NAVIGATION = [
       },
     ],
   },
+
   {
     title: "CAMPUS",
     items: [
@@ -53,6 +54,7 @@ const NAVIGATION = [
       },
     ],
   },
+
   {
     title: "INFORMATION",
     items: [
@@ -88,6 +90,30 @@ const NAVIGATION = [
       },
     ],
   },
+
+  {
+    title: "SUPPORT",
+    items: [
+      {
+        label: "Complaints",
+        description: "Report an issue",
+        href: "/complaints",
+        icon: MessageSquareWarning,
+      },
+      {
+        label: "Feedback",
+        description: "Share your experience",
+        href: "/feedback",
+        icon: Star,
+      },
+      {
+        label: "Help & Support",
+        description: "Get assistance",
+        href: "/help",
+        icon: CircleHelp,
+      },
+    ],
+  },
 ];
 
 export default function AppShell({
@@ -100,7 +126,10 @@ export default function AppShell({
   return (
     <div className="min-h-screen bg-[#f7f8f5] text-[#17382b]">
 
-      {/* Mobile overlay */}
+      {/* ============================================
+          MOBILE OVERLAY
+      ============================================= */}
+
       {mobileOpen && (
         <button
           aria-label="Close navigation"
@@ -109,9 +138,10 @@ export default function AppShell({
         />
       )}
 
-      {/* =====================================================
+
+      {/* ============================================
           FLOATING SIDEBAR
-      ====================================================== */}
+      ============================================= */}
 
       <aside
         className={`
@@ -122,6 +152,7 @@ export default function AppShell({
           bg-white
           shadow-[0_12px_45px_rgba(23,56,43,0.08)]
           transition-transform duration-300
+
           ${
             mobileOpen
               ? "translate-x-0"
@@ -130,9 +161,9 @@ export default function AppShell({
         `}
       >
 
-        {/* =================================================
+        {/* ==========================================
             BRAND
-        ================================================== */}
+        =========================================== */}
 
         <div className="border-b border-[#edf0eb] px-5 pb-5 pt-6">
 
@@ -144,6 +175,8 @@ export default function AppShell({
               className="flex items-center gap-3"
             >
 
+              {/* Logo */}
+
               <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-[#d9b24c]/40 bg-[#fffaf0]">
 
                 <Sparkles
@@ -151,11 +184,17 @@ export default function AppShell({
                   className="text-[#bd8f2b]"
                 />
 
+                {/* Online indicator */}
+
                 <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-[#2cad68]" />
 
               </div>
 
+
+              {/* Brand text */}
+
               <div>
+
                 <p className="text-[17px] font-bold tracking-wide text-[#17382b]">
                   SDIT AI
                 </p>
@@ -163,13 +202,18 @@ export default function AppShell({
                 <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-[#8b9690]">
                   Smart Campus
                 </p>
+
               </div>
 
             </Link>
 
+
+            {/* Mobile close button */}
+
             <button
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg p-2 text-[#7e8983] hover:bg-[#f5f7f4] lg:hidden"
+              aria-label="Close menu"
+              className="rounded-lg p-2 text-[#7e8983] transition hover:bg-[#f5f7f4] lg:hidden"
             >
               <X size={18} />
             </button>
@@ -177,7 +221,9 @@ export default function AppShell({
           </div>
 
 
-          {/* Online status */}
+          {/* ========================================
+              SYSTEM STATUS
+          ========================================= */}
 
           <div className="mt-5 flex items-center justify-between rounded-xl border border-[#e8ece7] bg-[#f8faf7] px-3 py-2.5">
 
@@ -197,6 +243,7 @@ export default function AppShell({
 
             </div>
 
+
             <span className="font-mono text-[9px] text-[#a0aaa4]">
               v2.0
             </span>
@@ -206,9 +253,9 @@ export default function AppShell({
         </div>
 
 
-        {/* =================================================
+        {/* ==========================================
             NAVIGATION
-        ================================================== */}
+        =========================================== */}
 
         <nav className="flex-1 overflow-y-auto px-3 py-5">
 
@@ -219,9 +266,14 @@ export default function AppShell({
               className="mb-6"
             >
 
+              {/* Section title */}
+
               <p className="mb-2 px-3 text-[9px] font-bold tracking-[0.16em] text-[#9aa39e]">
                 {section.title}
               </p>
+
+
+              {/* Navigation items */}
 
               <div className="space-y-1">
 
@@ -246,6 +298,7 @@ export default function AppShell({
                         group relative flex items-center gap-3
                         rounded-xl border px-3 py-2.5
                         transition-all duration-200
+
                         ${
                           isActive
                             ? "border-[#e2c875] bg-[#fffaf0]"
@@ -254,7 +307,7 @@ export default function AppShell({
                       `}
                     >
 
-                      {/* Active line */}
+                      {/* Active indicator */}
 
                       {isActive && (
                         <span className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full bg-[#c3942d]" />
@@ -267,6 +320,7 @@ export default function AppShell({
                         className={`
                           flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
                           transition-colors
+
                           ${
                             isActive
                               ? "bg-[#fdf3d9] text-[#b68725]"
@@ -285,6 +339,7 @@ export default function AppShell({
                         <p
                           className={`
                             truncate text-[12px] font-semibold
+
                             ${
                               isActive
                                 ? "text-[#17382b]"
@@ -301,6 +356,8 @@ export default function AppShell({
 
                       </div>
 
+
+                      {/* Arrow */}
 
                       <ChevronRight
                         size={14}
@@ -321,95 +378,16 @@ export default function AppShell({
         </nav>
 
 
-        {/* =================================================
-            AI CORE
-        ================================================== */}
-
-        <div className="p-3">
-
-          <div className="rounded-2xl border border-[#e3e8e1] bg-[#fafbf9] p-4">
-
-            <div className="flex items-center gap-3">
-
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#edf8f1] text-[#24945a]">
-                <Activity size={18} />
-              </div>
-
-              <div>
-
-                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#35443c]">
-                  AI Core
-                </p>
-
-                <p className="mt-0.5 text-[9px] text-[#929b95]">
-                  Knowledge engine active
-                </p>
-
-              </div>
-
-            </div>
-
-
-            {/* Progress */}
-
-            <div className="mt-4">
-
-              <div className="flex items-center justify-between">
-
-                <span className="text-[9px] text-[#89938d]">
-                  Knowledge Index
-                </span>
-
-                <span className="text-[10px] font-bold text-[#17382b]">
-                  98.7%
-                </span>
-
-              </div>
-
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#e4e9e3]">
-
-                <div className="h-full w-[98.7%] rounded-full bg-[#2cad68]" />
-
-              </div>
-
-            </div>
-
-
-            {/* Activity */}
-
-            <div className="mt-4 flex h-7 items-end gap-1">
-
-              {[30, 55, 35, 70, 45, 80, 40, 65, 30, 60, 45, 75].map(
-                (height, index) => (
-
-                  <span
-                    key={index}
-                    className="flex-1 rounded-full bg-[#a8d9ba]"
-                    style={{
-                      height: `${height}%`,
-                    }}
-                  />
-
-                )
-              )}
-
-            </div>
-
-          </div>
-
-
-          <p className="pb-1 pt-3 text-center text-[8px] uppercase tracking-[0.1em] text-[#a1aaa5]">
-            Shree Devi Institute of Technology
-          </p>
-
-        </div>
+        {/* ==========================================
+            MAIN CONTENT
+        =========================================== */}
 
       </aside>
 
 
-      {/* =====================================================
-          MAIN CONTENT
-      ====================================================== */}
+      {/* ============================================
+          PAGE CONTENT
+      ============================================= */}
 
       <main className="min-h-screen lg:pl-[292px]">
 
