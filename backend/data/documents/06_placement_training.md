@@ -6,9 +6,60 @@
 - Competitive salary packages: Top packages range from 8 to 14+ LPA; strong average salary packages across computing, core, and management disciplines.
 
 ## Visiting Recruiters
-- **Tech Giants & IT Services**: Amazon, Infosys, Tata Consultancy Services (TCS), Wipro, Cognizant, DXC Technology, Capgemini, SLK Software, Mindtree, Robosoft Technologies, Novigo Solutions, Hexaware Technologies, 6D Technologies.
-- **Banking & Finance**: ICICI Bank, Axis Bank, HDFC, Kotak Mahindra.
-- **Core Engineering**: Bosch vendors, Quest Global, L&T Technology Services, Subex, local aeronautical design vendors.
+The official SDIT placement page lists the following companies among the organizations where students have been placed:
+
+- Infosys
+- Techgini
+- Mobinious
+- Tech Mahindra
+- IBM
+- EMC Square
+- Birlasoft
+- SLK Software
+- Vectra Geospatial India Private Limited
+- Spintech
+- Sutherland
+- Sogefi MNR Engine Systems India
+- Polycab Wires Private Limited
+- Packt Publishing
+- RMC Readymix India
+- Foradian Technologies
+- Codilar
+- Digicall Teleservices
+- Diya Systems
+- Cactus Communications
+- Ankur Lamps and Lightings
+- Unikaihatsu Software
+- Advance Infrastructure
+- GICE
+- Hinduja Global Solutions Limited
+- ICICI Bank
+- TVM Signalling and Transportation Systems
+- Sankalp Semiconductor Private Limited
+- 42 Hertz Private Limited
+- FACE
+- PEOL
+- Mphasis
+- Trigent Software
+- Airtel
+- Compasites
+- Cadence
+- Collabera
+- Ericsson
+- Qspider
+- SmartDV
+- Tayana Software
+- Solvers India
+- Vantage Agora
+- Tetherfi Technologies Private Limited
+- Artech
+- CMS IT
+- VIT Infotech
+- HCL Technologies
+- Span Infotech
+- Accord Systems
+
+Source: [SDIT About the Placement](https://sdit.ac.in/about-the-placement/)
 
 ## 4-Tier Placement Training Program
 1. **Semester 3 & 4 (Foundational)**:
