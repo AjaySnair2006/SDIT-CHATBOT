@@ -131,6 +131,28 @@
     "source": "VTU Academic Regulations & SDIT Academic Cell"
   },
   {
+    "id": "dept_02_course_wise_syllabus_pdfs",
+    "category": "courses",
+    "title": "Course-wise Official Syllabus PDFs",
+    "keywords": ["syllabus", "syllabus pdf", "course syllabus", "cse syllabus", "aiml syllabus", "ai ds syllabus", "data science syllabus", "ise syllabus", "ece syllabus", "aeronautical syllabus", "mechanical syllabus", "civil syllabus", "mba syllabus", "mca syllabus", "mtech syllabus", "construction technology syllabus"],
+    "questions": [
+      "Show me the CSE syllabus PDF",
+      "I need the AIML syllabus PDF",
+      "Where is the AI and Data Science syllabus PDF?",
+      "Show me the ISE syllabus PDF",
+      "I need the ECE syllabus PDF",
+      "Where can I find the Aeronautical Engineering syllabus?",
+      "Show me the Mechanical Engineering syllabus PDF",
+      "Show me the Civil Engineering syllabus PDF",
+      "Where is the MBA syllabus PDF?",
+      "I need the MCA syllabus PDF",
+      "Show me the M.Tech syllabus PDF",
+      "What are the official course syllabus PDFs at SDIT?"
+    ],
+    "content": "### Course-wise Official Syllabus PDFs\n\n- **B.E. CSE**: [Download CSE Higher Semesters PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/COMPUTER-SCIENCE-HIGHER-SEM.pdf) and [Download CSE 2021 Scheme PDF](https://sdit.ac.in/wp-content/uploads/2024/08/21-Scheme.pdf)\n- **B.E. CSE (AIML)**: [Download B.E. First-Year Common Scheme PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/1st-year-new.pdf). The SDIT site does not expose a separate AIML syllabus PDF on the program page.\n- **B.E. Artificial Intelligence & Data Science**: [Download B.E. First-Year Common Scheme PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/1st-year-new.pdf). The SDIT site does not expose a separate AI & DS syllabus PDF on the program page.\n- **B.E. ISE**: [Download ISE 2021 Scheme PDF](https://sdit.ac.in/wp-content/uploads/2024/08/21-Scheme-3.pdf)\n- **B.E. ECE**: [Download ECE 2021 Scheme PDF](https://sdit.ac.in/wp-content/uploads/2024/08/21-Scheme-1.pdf)\n- **B.E. Aeronautical Engineering**: [Download Aeronautical Higher Semesters PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/AERONAUTICAL-ENGINEERING-HIGHER%20SEM.pdf) and [Download Aeronautical 2021 Scheme PDF](https://sdit.ac.in/wp-content/uploads/2024/08/21Sceheme.pdf)\n- **B.E. Mechanical Engineering**: [Download Mechanical 2018 Scheme PDF](https://sdit.ac.in/wp-content/uploads/2024/08/18-Scheme-4.pdf)\n- **B.E. Civil Engineering**: [Download Civil 2021 Scheme PDF](https://sdit.ac.in/wp-content/uploads/2024/08/21-Scheme-2.pdf)\n- **MBA**: [Download MBA Syllabus PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/MBA-new.pdf) and [Download MBA 2024 Scheme & COs PDF](https://sdit.ac.in/wp-content/uploads/2025/02/MBA-2024-SCHEME-COs.pdf)\n- **MCA**: [Download MCA Syllabus PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/MCA-new.pdf)\n- **M.Tech Construction Technology**: [Download M.Tech Syllabus PDF](https://sdit.ac.in/wp-content/themes/shridevi-child/pdf/MTECH.pdf)\n\nSource: **https://sdit.ac.in/** and official SDIT syllabus links.",
+    "source": "SDIT Official Program Pages and Syllabus PDFs (sdit.ac.in)"
+  },
+  {
     "id": "adm_03_admission_eligibility_procedure",
     "category": "admissions",
     "title": "Admissions Procedure, Eligibility Criteria & Counseling Codes",
