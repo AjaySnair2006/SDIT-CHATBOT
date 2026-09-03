@@ -2,84 +2,164 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
-}
 
-html.dark {
-  color-scheme: dark;
+/* =====================================================
+   BASE
+===================================================== */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: #F5F6F2;
-  color: #16213A;
-}
-
-html.dark body {
-  background-color: #0F1420;
-  color: #E7E9EE;
+  margin: 0;
+  min-height: 100vh;
+  background: #f7f8f5;
+  color: #17382b;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #C9CBC2 transparent;
+  box-sizing: border-box;
 }
 
-*::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar {
+  width: 7px;
 }
-*::-webkit-scrollbar-thumb {
-  background-color: #C9CBC2;
+
+::-webkit-scrollbar-track {
+  background: #f7f8f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d2d8d2;
   border-radius: 999px;
 }
-html.dark *::-webkit-scrollbar-thumb {
-  background-color: #2A3346;
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aeb8b1;
 }
 
-/* Visible keyboard focus everywhere */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid #B8862B;
-  outline-offset: 2px;
-  border-radius: 4px;
+
+/* =====================================================
+   SIDEBAR SCROLL
+===================================================== */
+
+aside nav {
+  scrollbar-width: thin;
+  scrollbar-color: #d7ddd7 transparent;
 }
+
+aside nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+aside nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+aside nav::-webkit-scrollbar-thumb {
+  background: #d7ddd7;
+  border-radius: 999px;
+}
+
+
+/* =====================================================
+   CARD HOVER
+===================================================== */
+
+.float-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.float-card:hover {
+  transform: translateY(-5px);
+}
+
+
+/* =====================================================
+   SOFT FLOAT
+===================================================== */
+
+@keyframes softFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.soft-float {
+  animation: softFloat 4s ease-in-out infinite;
+}
+
+
+/* =====================================================
+   ONLINE DOT
+===================================================== */
+
+@keyframes onlinePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scale(1.35);
+    opacity: 0.8;
+  }
+}
+
+.online-pulse {
+  animation: onlinePulse 2s ease-in-out infinite;
+}
+
+
+/* =====================================================
+   IMAGE TRANSITION
+===================================================== */
+
+@keyframes imageEnter {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-enter {
+  animation: imageEnter 0.7s ease forwards;
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Rendered markdown inside AI messages */
-.prose-chat p {
-  margin: 0 0 0.6em 0;
-}
-.prose-chat p:last-child {
-  margin-bottom: 0;
-}
-.prose-chat ul,
-.prose-chat ol {
-  margin: 0.3em 0 0.6em 1.2em;
-  padding: 0;
-}
-.prose-chat li {
-  margin-bottom: 0.25em;
-}
-.prose-chat strong {
-  font-weight: 600;
-}
-.prose-chat code {
-  background: rgba(184, 134, 43, 0.12);
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
-  font-size: 0.9em;
 }

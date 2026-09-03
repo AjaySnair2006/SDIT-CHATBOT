@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   GraduationCap,
@@ -9,93 +10,522 @@ import {
   Users,
   FlaskConical,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
+
 import AppShell from "@/components/AppShell";
 import Header from "@/components/Header";
-import HeroBackground from "@/components/HeroBackground";
-import LiveDemo from "@/components/LiveDemo";
 
-const HERO_IMAGES = ["/hero-bg-1.jpg", "/hero-bg-2.jpg", "/hero-bg-3.jpg"];
+/* =========================================================
+   5 CAMPUS PHOTOS
+========================================================= */
 
-const CATEGORIES = [
-  { label: "Admissions", icon: GraduationCap, desc: "Eligibility, entrance exams, and how to apply." },
-  { label: "Courses", icon: BookOpen, desc: "Undergraduate and postgraduate programmes on offer." },
-  { label: "Campus", icon: Building2, desc: "Labs, library, hostel, and everyday campus life." },
-  { label: "Placements", icon: Briefcase, desc: "Training, recruiters, and placement support." },
-  { label: "Clubs & Activities", icon: Users, desc: "Technical, cultural, and student-run clubs." },
-  { label: "Research", icon: FlaskConical, desc: "Ongoing projects and research opportunities." },
+const CAMPUS_IMAGES = [
+  "/hero-bg-1.jpg",
+  "/hero-bg-2.jpg",
+  "/hero-bg-3.jpg",
+  "/campus-4.jpg",
+  "/campus-5.jpg",
 ];
 
+/* =========================================================
+   CHAT TOPICS
+========================================================= */
+
+const CATEGORIES = [
+  {
+    label: "Admissions",
+    icon: GraduationCap,
+    desc: "Eligibility, entrance exams, important dates, and how to apply.",
+    topic: "Admissions",
+  },
+  {
+    label: "Courses",
+    icon: BookOpen,
+    desc: "Explore undergraduate and postgraduate programmes.",
+    topic: "Courses",
+  },
+  {
+    label: "Campus",
+    icon: Building2,
+    desc: "Learn about labs, library, hostel, transport, and facilities.",
+    topic: "Campus",
+  },
+  {
+    label: "Placements",
+    icon: Briefcase,
+    desc: "Training, recruiters, internships, and career opportunities.",
+    topic: "Placements",
+  },
+  {
+    label: "Clubs & Activities",
+    icon: Users,
+    desc: "Discover technical, cultural, sports, and student clubs.",
+    topic: "Clubs",
+  },
+  {
+    label: "Research",
+    icon: FlaskConical,
+    desc: "Explore research areas, projects, innovation, and publications.",
+    topic: "Research",
+  },
+];
+
+/* =========================================================
+   HOME PAGE
+========================================================= */
+
 export default function HomePage() {
+  const [activeImage, setActiveImage] = useState(0);
+
+  /* =======================================================
+     AUTO SLIDER
+  ======================================================= */
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveImage((current) =>
+        current === CAMPUS_IMAGES.length - 1 ? 0 : current + 1
+      );
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  /* =======================================================
+     NEXT IMAGE
+  ======================================================= */
+
+  const nextImage = () => {
+    setActiveImage((current) =>
+      current === CAMPUS_IMAGES.length - 1 ? 0 : current + 1
+    );
+  };
+
+  /* =======================================================
+     PREVIOUS IMAGE
+  ======================================================= */
+
+  const previousImage = () => {
+    setActiveImage((current) =>
+      current === 0 ? CAMPUS_IMAGES.length - 1 : current - 1
+    );
+  };
+
   return (
-    <AppShell renderHeader={(openMenu) => <Header onMenuClick={openMenu} />}>
-      <div className="mx-auto max-w-4xl px-5 py-14 lg:px-8 lg:py-20">
-        <div className="relative min-h-[55vh] overflow-hidden rounded-2xl sm:min-h-[70vh]">
-          <HeroBackground images={HERO_IMAGES} />
-          <div className="absolute inset-0 bg-gradient-to-r from-paper via-paper/90 to-paper/40 dark:from-dark-bg dark:via-dark-bg/90 dark:to-dark-bg/40" />
+    <AppShell
+      renderHeader={(openMenu) => (
+        <Header onMenuClick={openMenu} />
+      )}
+    >
+      <div className="mx-auto max-w-[1450px] px-4 pb-12 pt-6 sm:px-6 lg:px-8">
 
-          <div className="relative flex min-h-[55vh] flex-col justify-center gap-9 px-5 py-12 sm:min-h-[70vh] sm:px-9 sm:py-16 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-            <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-ink-soft dark:border-dark-border dark:bg-dark-surface dark:text-white/60">
-                <span className="h-1.5 w-1.5 rounded-full bg-campus-green" />
-                Shree Devi Institute of Technology
-              </span>
+        {/* =====================================================
+            HERO SECTION
+        ====================================================== */}
 
-              <h1 className="mt-5 font-serif text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl dark:text-white">
-                Hello <span aria-hidden="true">👋</span>
+        <section className="overflow-hidden rounded-[28px] border border-[#e1e6df] bg-white shadow-[0_10px_40px_rgba(23,56,43,0.06)]">
+
+          <div className="grid min-h-[620px] grid-cols-1 lg:grid-cols-[0.9fr_1.3fr]">
+
+            {/* =================================================
+                LEFT HERO CONTENT
+            ================================================== */}
+
+            <div className="flex flex-col justify-center px-7 py-12 sm:px-10 lg:px-12">
+
+              {/* Status */}
+
+              <div className="flex items-center gap-2">
+
+                <span className="relative flex h-2.5 w-2.5">
+
+                  <span className="absolute h-full w-full animate-ping rounded-full bg-[#2cad68] opacity-40" />
+
+                  <span className="relative h-2.5 w-2.5 rounded-full bg-[#2cad68]" />
+
+                </span>
+
+                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#258355]">
+                  SDIT Campus Intelligence
+                </span>
+
+              </div>
+
+
+              {/* Heading */}
+
+              <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.03] tracking-tight text-[#17382b] sm:text-6xl lg:text-[68px]">
+
+                Your Campus.
+
                 <br />
-                I&apos;m SDIT SmartBot
+
+                <span className="text-[#27885a]">
+                  Intelligence.
+                </span>
+
+                <br />
+
+                <span className="text-[#c3942d]">
+                  Connected.
+                </span>
+
               </h1>
 
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-ink-soft dark:text-white/60">
-                Your AI assistant for Shree Devi Institute of Technology. Ask
-                me about admissions, courses, campus facilities, placements,
-                clubs, or research — I&apos;ll pull answers straight from
-                SDIT&apos;s own knowledge base.
+
+              {/* Description */}
+
+              <p className="mt-6 max-w-xl text-base leading-7 text-[#6f7973] sm:text-lg">
+                One intelligent space to explore SDIT, discover
+                opportunities, and get answers about your campus
+                whenever you need them.
               </p>
 
-              <Link
-                href="/chat"
-                className="mt-7 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-gold-deep dark:bg-gold-deep"
-              >
-                Start Chatting
-                <ArrowRight size={16} />
-              </Link>
-            </div>
 
-            <div className="flex justify-center lg:justify-end">
-              <LiveDemo />
-            </div>
-          </div>
-        </div>
+              {/* Buttons */}
 
-        <div className="mt-16">
-          <p className="text-xs font-medium uppercase tracking-wide text-ink-faint dark:text-white/40">
-            What you can ask about
-          </p>
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              return (
+              <div className="mt-8 flex flex-wrap gap-3">
+
                 <Link
-                  key={cat.label}
-                  href={`/chat?topic=${encodeURIComponent(cat.label.split(" ")[0])}`}
-                  className="group rounded-xl border border-border bg-surface p-4 transition-colors hover:border-gold/40 hover:bg-gold-soft/25 dark:border-dark-border dark:bg-dark-surface dark:hover:bg-white/5"
+                  href="/chat"
+                  className="group inline-flex items-center gap-3 rounded-xl bg-[#173c2d] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#20543f]"
                 >
-                  <Icon size={19} className="text-campus-green dark:text-gold" />
-                  <p className="mt-2.5 text-sm font-medium text-ink dark:text-white">{cat.label}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-ink-faint dark:text-white/40">{cat.desc}</p>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+                  Start Chatting
 
-        <p className="mt-16 max-w-lg border-t border-border pt-6 text-xs leading-relaxed text-ink-faint dark:border-dark-border dark:text-white/30">
-          SDIT SmartBot answers using information from SDIT&apos;s own
-          knowledge base. For official or time-sensitive details, please
-          confirm with the college administration.
-        </p>
+                  <ArrowRight
+                    size={17}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+
+                </Link>
+
+
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#dfe4de] bg-white px-5 py-3.5 text-sm font-medium text-[#46534c] transition hover:border-[#d9b24c] hover:bg-[#fffaf0]"
+                >
+                  Explore Campus
+                </Link>
+
+              </div>
+
+
+              {/* Stats */}
+
+              <div className="mt-10 grid max-w-lg grid-cols-3 border-t border-[#e8ebe6] pt-7">
+
+                <div>
+
+                  <p className="text-2xl font-semibold text-[#17382b]">
+                    24+
+                  </p>
+
+                  <p className="mt-1 text-xs text-[#929b95]">
+                    Knowledge Areas
+                  </p>
+
+                </div>
+
+
+                <div className="border-l border-[#e8ebe6] pl-5">
+
+                  <p className="text-2xl font-semibold text-[#17382b]">
+                    24/7
+                  </p>
+
+                  <p className="mt-1 text-xs text-[#929b95]">
+                    AI Assistance
+                  </p>
+
+                </div>
+
+
+                <div className="border-l border-[#e8ebe6] pl-5">
+
+                  <p className="text-2xl font-semibold text-[#17382b]">
+                    AI
+                  </p>
+
+                  <p className="mt-1 text-xs text-[#929b95]">
+                    Campus Powered
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* =================================================
+                RIGHT — 5 PHOTO CAMPUS SLIDER
+            ================================================== */}
+
+            <div className="relative min-h-[500px] overflow-hidden bg-[#e8ece7] lg:min-h-[620px]">
+
+              {/* =================================================
+                  MAIN 5 IMAGE SLIDER
+              ================================================== */}
+
+              {CAMPUS_IMAGES.map((image, index) => (
+
+                <img
+                  key={image}
+                  src={image}
+                  alt={`SDIT campus view ${index + 1}`}
+                  className={`
+                    absolute inset-0 h-full w-full object-cover
+                    transition-all duration-700
+                    ${
+                      index === activeImage
+                        ? "scale-100 opacity-100"
+                        : "scale-[1.04] opacity-0"
+                    }
+                  `}
+                />
+
+              ))}
+
+
+              {/* Image overlay */}
+
+              <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/10" />
+
+              <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
+
+
+              {/* =================================================
+                  PHOTO INFORMATION
+              ================================================== */}
+
+              <div className="absolute bottom-7 left-7 z-10 max-w-[70%] sm:left-9">
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/75">
+                  Explore SDIT
+                </p>
+
+                <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">
+                  Shree Devi Institute of Technology
+                </h2>
+
+                <p className="mt-1 text-sm text-white/70">
+                  Innovation • Excellence • Student Life
+                </p>
+
+              </div>
+
+
+              {/* =================================================
+                  5 VERTICAL THUMBNAILS
+              ================================================== */}
+
+              <div className="absolute right-5 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-3 sm:flex">
+
+                {CAMPUS_IMAGES.map((image, index) => (
+
+                  <button
+                    key={image}
+                    onClick={() => setActiveImage(index)}
+                    aria-label={`View campus photo ${index + 1}`}
+                    className={`
+                      h-[68px] w-[82px]
+                      overflow-hidden rounded-xl
+                      border-2
+                      shadow-md
+                      transition-all duration-300
+                      ${
+                        activeImage === index
+                          ? "scale-105 border-[#d9b24c]"
+                          : "border-white/70 opacity-75 hover:scale-105 hover:opacity-100"
+                      }
+                    `}
+                  >
+
+                    <img
+                      src={image}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+
+                  </button>
+
+                ))}
+
+              </div>
+
+
+              {/* =================================================
+                  PREVIOUS / NEXT BUTTONS
+              ================================================== */}
+
+              <div className="absolute right-5 top-5 z-20 flex gap-2">
+
+                <button
+                  onClick={previousImage}
+                  aria-label="Previous campus photo"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-black/20 text-white backdrop-blur-md transition hover:bg-black/40"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+
+
+                <button
+                  onClick={nextImage}
+                  aria-label="Next campus photo"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-black/20 text-white backdrop-blur-md transition hover:bg-black/40"
+                >
+                  <ChevronRight size={18} />
+                </button>
+
+              </div>
+
+
+              {/* =================================================
+                  PHOTO COUNTER
+              ================================================== */}
+
+              <div className="absolute bottom-7 right-5 z-20 rounded-full bg-black/25 px-3 py-1.5 font-mono text-xs text-white backdrop-blur-md sm:right-[115px]">
+
+                {String(activeImage + 1).padStart(2, "0")}
+                {" / "}
+                {String(CAMPUS_IMAGES.length).padStart(2, "0")}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* =====================================================
+            SMART ASSISTANCE
+        ====================================================== */}
+
+        <section className="mt-14">
+
+          <div className="flex items-end justify-between">
+
+            <div>
+
+              <div className="flex items-center gap-2 text-[#258355]">
+
+                <Sparkles size={17} />
+
+                <span className="text-xs font-semibold uppercase tracking-[0.15em]">
+                  Smart Assistance
+                </span>
+
+              </div>
+
+
+              <h2 className="mt-2 text-2xl font-semibold text-[#17382b] sm:text-3xl">
+                How can I help you today?
+              </h2>
+
+            </div>
+
+
+            <Link
+              href="/chat"
+              className="hidden items-center gap-1 text-sm font-medium text-[#258355] sm:flex"
+            >
+              Ask SmartBot
+              <ArrowRight size={15} />
+            </Link>
+
+          </div>
+
+
+          {/* =================================================
+              CATEGORY CARDS
+          ================================================== */}
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            {CATEGORIES.map((category) => {
+
+              const Icon = category.icon;
+
+              return (
+
+                <Link
+                  key={category.label}
+                  href={`/chat?topic=${encodeURIComponent(category.topic)}`}
+                  className="group rounded-2xl border border-[#e1e6df] bg-white p-5 shadow-[0_5px_20px_rgba(23,56,43,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-[#d9b24c]/70 hover:shadow-[0_12px_30px_rgba(23,56,43,0.08)]"
+                >
+
+                  <div className="flex items-start justify-between">
+
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#eff8f2] text-[#258355]">
+                      <Icon size={21} />
+                    </div>
+
+
+                    <ArrowRight
+                      size={17}
+                      className="text-[#b8c0bb] transition-all group-hover:translate-x-1 group-hover:text-[#c3942d]"
+                    />
+
+                  </div>
+
+
+                  <h3 className="mt-5 text-base font-semibold text-[#17382b]">
+                    {category.label}
+                  </h3>
+
+
+                  <p className="mt-2 text-sm leading-6 text-[#8a948e]">
+                    {category.desc}
+                  </p>
+
+                </Link>
+
+              );
+
+            })}
+
+          </div>
+
+        </section>
+
+
+        {/* =====================================================
+            KNOWLEDGE BASE NOTICE
+        ====================================================== */}
+
+        <section className="mt-8 rounded-2xl border border-[#e1e6df] bg-white p-5">
+
+          <div className="flex items-center gap-4">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#eff8f2] text-[#258355]">
+              <ShieldCheck size={22} />
+            </div>
+
+
+            <div>
+
+              <p className="text-sm font-semibold text-[#17382b]">
+                SDIT SmartBot Knowledge Base
+              </p>
+
+              <p className="mt-1 text-xs leading-5 text-[#929b95]">
+                SmartBot answers using information from SDIT&apos;s
+                knowledge base. For official or time-sensitive details,
+                please confirm with the college administration.
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
       </div>
     </AppShell>
   );
