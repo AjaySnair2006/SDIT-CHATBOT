@@ -14,7 +14,7 @@ function renderMap(
   label: string = "Shree Devi Institute of Technology (SDIT), Kenjar, Mangaluru"
 ) {
   const directLink =
-    "https://maps.google.com/?q=Shree+Devi+Institute+of+Technology+Kenjar+Mangaluru";
+    "https://www.google.com/maps/search/?api=1&query=Shree+Devi+Institute+of+Technology+Kenjar+Mangaluru";
 
   return (
     <div
