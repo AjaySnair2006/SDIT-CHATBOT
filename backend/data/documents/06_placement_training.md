@@ -61,6 +61,86 @@ The official SDIT placement page lists the following companies among the organiz
 
 Source: [SDIT About the Placement](https://sdit.ac.in/about-the-placement/)
 
+## Companies Displayed in the Official Homepage Recruiter Carousel
+
+The official SDIT homepage links to these companies in its recruiter carousel and `company` category:
+
+- Accenture
+- Amazon
+- Tata Consultancy Services (TCS)
+- IBM
+- Cognizant Technology Solutions
+- Deloitte
+- Capgemini
+- Wipro
+- Oracle
+- EY
+- PwC
+- HCLTech
+- Cisco
+- Dell Technologies
+- Tech Mahindra
+- Wells Fargo
+- SAP
+- Target
+- DXC Technology
+- Goldman Sachs
+- Honeywell
+- Concentrix
+- Hewlett Packard Enterprise (HPE)
+- J.P. Morgan
+- Genpact
+- Robert Bosch
+- Cerner
+- Flipkart
+- Huawei Technologies
+- Adobe
+- Shell
+- HP Inc.
+- Intuit
+- HARMAN
+- Robert Bosch India
+- Tesco
+- ITC Infotech
+- Samsung
+- State Street
+- ICICI Bank
+- NVIDIA
+- Informatica
+- Unilever
+- Infosys BPM
+- Northern Trust
+- Virtusa
+- Walmart Global Tech
+- ALSTOM
+- Akamai
+- Larsen & Toubro
+- GlobalLogic
+- TATA ELXSI
+- HDFC Bank
+- LTIMindtree
+- EXL Service
+- Caterpillar
+- Mercedes-Benz Research
+- Randstad
+- Persistent Systems
+- Kyndryl
+- Boston Consulting Group
+- Axis Bank
+- Paytm
+- Happiest Minds Technologies
+- MCF
+- Invenger Technologies Pvt. Ltd.
+- Komquest Solutions
+- Alomite Technologies
+- Saraghsoft Technologies Pvt Ltd
+- Infosys
+- Diya Systems
+- EGDK India Private Limited
+- Hettich
+
+Source: [SDIT Homepage](https://sdit.ac.in/) and [official company category](https://sdit.ac.in/category/company/)
+
 ## 4-Tier Placement Training Program
 1. **Semester 3 & 4 (Foundational)**:
    - Verbal communication, corporate etiquette, body language, and confidence building.
