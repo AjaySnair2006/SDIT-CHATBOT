@@ -1,79 +1,168 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
-import AppShell from "@/components/AppShell";
-import Header from "@/components/Header";
+import {
+  CircleHelp,
+  ChevronDown,
+  MessageCircle,
+  Mail,
+} from "lucide-react";
 
 const FAQS = [
   {
-    q: "What can I ask SDIT SmartBot?",
-    a: "Anything about SDIT — admissions and eligibility, courses offered, campus facilities, placement training, student clubs, and research opportunities.",
+    question: "What is SDIT SmartBot?",
+    answer:
+      "SDIT SmartBot is an AI-powered campus assistant designed to help students find information about SDIT, including admissions, courses, facilities, placements, clubs and other campus-related information.",
   },
   {
-    q: "Where does SDIT SmartBot get its answers from?",
-    a: "Its answers are retrieved from SDIT's own knowledge base by the backend. When a source is available, it's shown under the answer.",
+    question: "What can I ask SmartBot?",
+    answer:
+      "You can ask questions about admissions, departments, courses, campus facilities, placements, student activities, research and other information available in the SmartBot knowledge base.",
   },
   {
-    q: "What if the server is offline or a question fails?",
-    a: "You'll see a clear error message with a Retry button. Your conversation stays intact, so you can try again without losing earlier messages.",
+    question: "How do I report an issue?",
+    answer:
+      "You can use the Complaints section from the sidebar to submit an issue. Provide the category, subject and a clear description so it can be reviewed.",
   },
   {
-    q: "Is my conversation saved anywhere?",
-    a: "Conversations are stored only in your browser on this device, so you can pick up where you left off. Use New Chat to clear it.",
+    question: "How can I give feedback?",
+    answer:
+      "Open the Feedback section from the sidebar, select your rating and share your experience or suggestions.",
   },
   {
-    q: "Can I use voice input?",
-    a: "Yes — tap the microphone icon in the chat input to dictate your question. If your browser doesn't support speech recognition, you can always type instead.",
+    question: "What if SmartBot gives me an incorrect answer?",
+    answer:
+      "If you notice incorrect or outdated information, please report it through the Feedback or Complaints section so the information can be reviewed.",
   },
 ];
 
 export default function HelpPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <AppShell renderHeader={(openMenu) => <Header onMenuClick={openMenu} />}>
-      <div className="mx-auto max-w-2xl px-5 py-14 lg:px-8 lg:py-20">
-        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-gold dark:bg-white/10">
-          <HelpCircle size={22} />
-        </span>
-        <h1 className="mt-5 font-serif text-3xl font-semibold text-ink dark:text-white">
-          Help &amp; FAQ
-        </h1>
-        <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-soft dark:text-white/60">
-          Common questions about using SDIT SmartBot.
-        </p>
+    <div className="min-h-screen bg-[#f7f8f5] px-5 py-8 lg:px-10 lg:py-10">
+      <div className="mx-auto max-w-4xl">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#d9b24c]/40 bg-[#fffaf0]">
+            <CircleHelp size={23} className="text-[#bd8f2b]" />
+          </div>
 
-        <div className="mt-9 divide-y divide-border rounded-xl border border-border bg-surface dark:divide-dark-border dark:border-dark-border dark:bg-dark-surface">
-          {FAQS.map((item, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div key={item.q}>
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#bd8f2b]">
+            SmartBot Assistance
+          </p>
+
+          <h1 className="text-3xl font-bold tracking-tight text-[#17382b]">
+            Help & Support
+          </h1>
+
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[#718079]">
+            Find answers to common questions or get help with SDIT SmartBot.
+          </p>
+        </div>
+
+        {/* FAQ */}
+        <div className="rounded-2xl border border-[#e1e6df] bg-white p-5 shadow-[0_10px_35px_rgba(23,56,43,0.06)] lg:p-7">
+          <div className="mb-5">
+            <p className="text-sm font-bold text-[#17382b]">
+              Frequently Asked Questions
+            </p>
+
+            <p className="mt-1 text-xs text-[#98a19c]">
+              Quick answers to common questions
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            {FAQS.map((faq, index) => {
+              const isOpen = openIndex === index;
+
+              return (
+                <div
+                  key={faq.question}
+                  className={`overflow-hidden rounded-xl border transition ${
+                    isOpen
+                      ? "border-[#e2c875] bg-[#fffaf0]"
+                      : "border-[#e5eae4] bg-white"
+                  }`}
                 >
-                  <span className="text-sm font-medium text-ink dark:text-white">
-                    {item.q}
-                  </span>
-                  <ChevronDown
-                    size={16}
-                    className={`shrink-0 text-ink-faint transition-transform dark:text-white/40 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isOpen && (
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-ink-soft dark:text-white/50">
-                    {item.a}
-                  </p>
-                )}
-              </div>
-            );
-          })}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenIndex(isOpen ? null : index)
+                    }
+                    className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left"
+                  >
+                    <span className="text-sm font-semibold text-[#46544d]">
+                      {faq.question}
+                    </span>
+
+                    <ChevronDown
+                      size={18}
+                      className={`shrink-0 text-[#8b9690] transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="border-t border-[#eee7d1] px-4 pb-4 pt-3">
+                      <p className="text-sm leading-6 text-[#718079]">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Support Cards */}
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-[#e1e6df] bg-white p-6 shadow-[0_10px_35px_rgba(23,56,43,0.05)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#edf7f0]">
+              <MessageCircle size={19} className="text-[#258355]" />
+            </div>
+
+            <h2 className="mt-4 text-base font-bold text-[#17382b]">
+              Ask SmartBot
+            </h2>
+
+            <p className="mt-1 text-xs leading-5 text-[#8a9690]">
+              Get quick answers about campus, courses, admissions and more.
+            </p>
+
+            <a
+              href="/chat"
+              className="mt-5 inline-flex rounded-lg bg-[#17382b] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#24523f]"
+            >
+              Start Chat
+            </a>
+          </div>
+
+          <div className="rounded-2xl border border-[#e1e6df] bg-white p-6 shadow-[0_10px_35px_rgba(23,56,43,0.05)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#fffaf0]">
+              <Mail size={19} className="text-[#bd8f2b]" />
+            </div>
+
+            <h2 className="mt-4 text-base font-bold text-[#17382b]">
+              Need More Help?
+            </h2>
+
+            <p className="mt-1 text-xs leading-5 text-[#8a9690]">
+              If you cannot find an answer, submit a complaint or feedback.
+            </p>
+
+            <a
+              href="/feedback"
+              className="mt-5 inline-flex rounded-lg border border-[#d9b24c] bg-[#fffaf0] px-4 py-2.5 text-xs font-semibold text-[#9a7421] transition hover:bg-[#fff6df]"
+            >
+              Contact Support
+            </a>
+          </div>
         </div>
       </div>
-    </AppShell>
+    </div>
   );
 }
