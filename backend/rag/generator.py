@@ -113,6 +113,9 @@ class ResponseGenerator:
         if detected_category == "general" and retrieval_result.get("category"):
             detected_category = retrieval_result["category"]
 
+        if retrieval_result.get("category") == "events":
+            detected_category = "events"
+
         score = retrieval_result.get("score", 0.0)
         best_chunk = retrieval_result.get("best_chunk")
         context_text = retrieval_result.get("context_text", "")
