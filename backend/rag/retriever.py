@@ -123,7 +123,10 @@ class KnowledgeRetriever:
                 continue
             lines = sec_trimmed.split("\n")
             title = lines[0].replace("#", "").strip() if lines else filename
-            body = "\n".join(lines[1:]).strip() if len(lines) > 1 else sec_trimmed
+            body = "\n".join(lines[1:]).strip() if len(lines) > 1 else ""
+
+            if not body or not re.search(r"\w", body):
+                continue
             
             # Simple category inference from filename
             cat = "general"
