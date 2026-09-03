@@ -1,0 +1,27 @@
+[
+  {
+    "id": "SDIT-FDB-2026-108Z",
+    "type": "feedback",
+    "category": "SDIT SmartBot AI Assistant",
+    "rating": 5,
+    "name": "Riyana",
+    "email": "riyana@example.com",
+    "isAnonymous": false,
+    "subject": "SmartBot is very helpful",
+    "description": "The new UI is clean and response times are fast",
+    "createdAt": "2026-09-03T11:53:43.943Z",
+    "status": "Received"
+  },
+  {
+    "id": "SDIT-GRV-2026-W19A",
+    "type": "complaint",
+    "category": "Labs & Department Infrastructure",
+    "urgency": "urgent",
+    "name": "Anonymous Student/Visitor",
+    "isAnonymous": true,
+    "subject": "Projector flickering in Seminar Hall 2",
+    "description": "HDMI connection is unstable",
+    "createdAt": "2026-09-03T11:53:11.926Z",
+    "status": "Received"
+  }
+]

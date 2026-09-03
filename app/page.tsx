@@ -14,6 +14,9 @@ import {
   ChevronRight,
   Sparkles,
   ShieldCheck,
+  ShieldAlert,
+  MessageSquareHeart,
+  Clock,
 } from "lucide-react";
 
 import AppShell from "@/components/AppShell";
@@ -489,6 +492,123 @@ export default function HomePage() {
               );
 
             })}
+
+          </div>
+
+        </section>
+
+
+        {/* =====================================================
+            GRIEVANCE & FEEDBACK SECTION
+        ====================================================== */}
+
+        <section className="mt-14 overflow-hidden rounded-[26px] border border-[#e1e6df] bg-gradient-to-br from-white via-white to-[#fbfcfb] p-6 shadow-[0_6px_30px_rgba(23,56,43,0.04)] sm:p-8">
+
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+
+            <div>
+
+              <div className="flex items-center gap-2 text-[#258355]">
+                <ShieldAlert size={17} />
+                <span className="text-xs font-semibold uppercase tracking-[0.15em]">
+                  Student Services &amp; Quality
+                </span>
+              </div>
+
+              <h2 className="mt-2 text-2xl font-bold text-[#17382b] sm:text-3xl">
+                Grievance Redressal &amp; Campus Feedback
+              </h2>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#728078]">
+                SDIT maintains an active Grievance Redressal Cell and Anti-Ragging Committee to ensure a safe, supportive, and world-class academic environment.
+              </p>
+
+            </div>
+
+            <Link
+              href="/feedback"
+              className="inline-flex items-center gap-1.5 self-start md:self-auto rounded-xl bg-[#17382b] px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-[#215440]"
+            >
+              <span>Open Portal</span>
+              <ArrowRight size={14} />
+            </Link>
+
+          </div>
+
+
+          {/* 2 Feature Cards */}
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+            {/* Card 1: File a Grievance */}
+
+            <Link
+              href="/feedback"
+              className="group rounded-2xl border border-[#e5ebe4] bg-[#f9faf8] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#d9b24c] hover:bg-white hover:shadow-md"
+            >
+
+              <div className="flex items-start justify-between">
+
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fff2ef] text-[#c93e23]">
+                  <ShieldAlert size={20} />
+                </div>
+
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-[#c93e23]">
+                  <Clock size={13} />
+                  <span>48–72h Resolution</span>
+                </div>
+
+              </div>
+
+              <h3 className="mt-4 text-base font-bold text-[#17382b]">
+                Lodge a Complaint / Grievance
+              </h3>
+
+              <p className="mt-1.5 text-xs leading-5 text-[#6c7b73]">
+                Report issues regarding academics, labs, mess/hostels, transport, fees, or discipline. 100% anonymous submission supported.
+              </p>
+
+              <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#17382b] group-hover:text-[#258355]">
+                <span>Submit a Grievance</span>
+                <ArrowRight size={13} className="transition group-hover:translate-x-1" />
+              </div>
+
+            </Link>
+
+
+            {/* Card 2: Campus Feedback */}
+
+            <Link
+              href="/feedback"
+              className="group rounded-2xl border border-[#e5ebe4] bg-[#f9faf8] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#d9b24c] hover:bg-white hover:shadow-md"
+            >
+
+              <div className="flex items-start justify-between">
+
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#eff8f2] text-[#258355]">
+                  <MessageSquareHeart size={20} />
+                </div>
+
+                <span className="rounded-full bg-[#f2f6f3] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#258355]">
+                  Constructive Ideas
+                </span>
+
+              </div>
+
+              <h3 className="mt-4 text-base font-bold text-[#17382b]">
+                Share Suggestions &amp; Feedback
+              </h3>
+
+              <p className="mt-1.5 text-xs leading-5 text-[#6c7b73]">
+                Rate your SDIT experience, suggest campus improvements, and share ideas for facilities, events, clubs, or the AI chatbot.
+              </p>
+
+              <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#17382b] group-hover:text-[#258355]">
+                <span>Give Feedback</span>
+                <ArrowRight size={13} className="transition group-hover:translate-x-1" />
+              </div>
+
+            </Link>
 
           </div>
 

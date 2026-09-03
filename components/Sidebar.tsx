@@ -15,6 +15,7 @@ import {
   Briefcase,
   Users,
   FlaskConical,
+  ShieldAlert,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -27,6 +28,7 @@ const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
   { href: "/chat", label: "Chat", icon: MessageSquare },
   { href: "/about", label: "About", icon: Info },
+  { href: "/feedback", label: "Feedback & Grievances", icon: ShieldAlert },
   { href: "/help", label: "Help", icon: HelpCircle },
 ];
 

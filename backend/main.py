@@ -1,4 +1,8 @@
 from contextlib import asynccontextmanager
+import json
+import os
+import uuid
+from datetime import datetime
 from typing import Optional
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -65,6 +69,28 @@ class ChatResponse(BaseModel):
     answer: str
     category: Optional[str] = None
     sources: Optional[list[str]] = None
+
+
+class FeedbackSubmissionRequest(BaseModel):
+    type: str = Field(default="feedback", description="'complaint' or 'feedback'")
+    category: str = Field(..., description="Category or department of grievance/feedback")
+    urgency: Optional[str] = Field(default="routine", description="'routine', 'medium', or 'urgent'")
+    rating: Optional[int] = Field(default=None, ge=1, le=5)
+    department: Optional[str] = None
+    name: Optional[str] = None
+    email: Optional[str] = None
+    usn: Optional[str] = None
+    is_anonymous: bool = Field(default=False)
+    subject: str = Field(..., min_length=1)
+    description: str = Field(..., min_length=1)
+
+
+class FeedbackResponse(BaseModel):
+    success: bool
+    ticket_id: str
+    message: str
+    status: str
+    created_at: str
 
 
 @app.get("/")
@@ -163,3 +189,88 @@ def reload_knowledge():
             "message": f"Reloaded {len(retriever.all_chunks)} knowledge passages successfully."
         }
     return {"status": "error", "message": "Retriever not initialized."}
+
+
+FEEDBACK_FILE = os.path.join(os.path.dirname(__file__), "data", "feedback_submissions.json")
+
+
+def _read_feedback_store() -> list:
+    try:
+        if os.path.exists(FEEDBACK_FILE):
+            with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"[Warning] Could not read feedback store: {e}")
+    return []
+
+
+def _write_feedback_store(items: list):
+    try:
+        os.makedirs(os.path.dirname(FEEDBACK_FILE), exist_ok=True)
+        with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
+            json.dump(items, f, indent=2)
+    except Exception as e:
+        print(f"[Warning] Could not write feedback store: {e}")
+
+
+@app.post("/feedback", response_model=FeedbackResponse, status_code=status.HTTP_201_CREATED)
+def submit_feedback(req: FeedbackSubmissionRequest):
+    """
+    Submits a student/visitor grievance or feedback suggestion.
+    Generates a unique reference ticket (SDIT-GRV-... or SDIT-FDB-...) and logs submission.
+    """
+    subject = req.subject.strip()
+    description = req.description.strip()
+    if not subject or not description:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Subject and description cannot be empty."
+        )
+
+    prefix = "SDIT-GRV" if req.type == "complaint" else "SDIT-FDB"
+    year = datetime.now().year
+    suffix = uuid.uuid4().hex[:4].upper()
+    ticket_id = f"{prefix}-{year}-{suffix}"
+    created_at = datetime.now().isoformat()
+
+    record = {
+        "id": ticket_id,
+        "type": req.type,
+        "category": req.category,
+        "urgency": req.urgency if req.type == "complaint" else None,
+        "rating": req.rating if req.type == "feedback" else None,
+        "department": req.department,
+        "name": "Anonymous Student/Visitor" if req.is_anonymous else (req.name or "Anonymous"),
+        "email": None if req.is_anonymous else req.email,
+        "usn": None if req.is_anonymous else (req.usn.upper() if req.usn else None),
+        "isAnonymous": req.is_anonymous,
+        "subject": subject,
+        "description": description,
+        "createdAt": created_at,
+        "status": "Received"
+    }
+
+    records = _read_feedback_store()
+    records.insert(0, record)
+    _write_feedback_store(records)
+
+    msg = (
+        "Your grievance has been officially registered with the SDIT Redressal Cell (VTU 48-72h resolution standard)."
+        if req.type == "complaint"
+        else "Thank you for your valuable feedback! It will help us improve SDIT campus services."
+    )
+
+    return FeedbackResponse(
+        success=True,
+        ticket_id=ticket_id,
+        message=msg,
+        status="Received",
+        created_at=created_at
+    )
+
+
+@app.get("/feedback")
+def list_feedback():
+    """Returns recent feedback and complaint tickets for administrative tracking."""
+    return {"submissions": _read_feedback_store()[:20]}
+

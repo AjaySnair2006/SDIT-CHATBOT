@@ -9,6 +9,7 @@ import {
   Loader2,
   Sparkles,
   User,
+  ShieldAlert,
 } from "lucide-react";
 
 import AppShell from "@/components/AppShell";
@@ -126,6 +127,8 @@ export default function ChatPage() {
     "How can I apply for admission?",
     "Tell me about placements",
     "What facilities are available?",
+    "How do I submit a grievance or complaint?",
+    "How do I give campus feedback?",
   ];
 
   const askQuickQuestion = (question: string) => {
@@ -176,8 +179,16 @@ export default function ChatPage() {
 
             </div>
 
-            <div className="hidden sm:flex">
-              <span className="rounded-full border border-[#e2e8e2] bg-[#fafbf9] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#7d8982]">
+            <div className="flex items-center gap-2">
+              <Link
+                href="/feedback"
+                className="flex items-center gap-1.5 rounded-xl border border-[#e2e7e1] bg-white px-3 py-1.5 text-xs font-semibold text-[#445249] transition hover:border-[#d9b24c] hover:bg-[#fffaf0] hover:text-[#17382b]"
+              >
+                <ShieldAlert size={14} className="text-[#c93e23]" />
+                <span className="hidden sm:inline">Grievance &amp; Feedback</span>
+              </Link>
+
+              <span className="hidden sm:flex rounded-full border border-[#e2e8e2] bg-[#fafbf9] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#7d8982]">
                 SDIT Knowledge Base
               </span>
             </div>
