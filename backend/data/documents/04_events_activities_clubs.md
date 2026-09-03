@@ -28,3 +28,23 @@ Source: [SDIT Clubs](https://sdit.ac.in/clubs/)
 
 ## Event Registration & Schedules
 Event registrations and live schedules are posted on the college portal at **https://www.sdit.ac.in** and departmental noticeboards.
+
+## Official Events Listed by SDIT
+
+The official SDIT Events page lists these events and activities:
+
+1. **Celebration of Cultural Diversity**: Cultural celebrations such as Krishna Janmashtami, bhajans, skits, dahi handi, Pili Nalike, and Chende performances.
+2. **Shree Devi Sambhram**: A national-level cultural and technical fest offering a two-day platform for creativity, fresh ideas, knowledge, and student talent.
+3. **Surabhi**: An intra-college technical and cultural fest promoting collaboration, teamwork, innovation, and student participation.
+4. **Samshodhan**: A technical project exhibition where students present research, prototypes, and practical applications to faculty, industry professionals, and visitors.
+5. **Annual Sports Meet**: A sports event featuring track and field, team sports, and individual competitions while promoting fitness and sportsmanship.
+6. **Technospark**: A state-level science model exhibition where students showcase innovative projects and scientific discoveries.
+7. **Graduation Day**: A ceremony marking the completion of students' academic journey and celebrating their achievements.
+8. **Orientation Programme**: An induction event introducing incoming students to the college environment, resources, academic expectations, faculty, administrators, and classmates.
+9. **Farewell Day**: A celebration for graduating students that reflects on their college memories and marks the beginning of their next journey.
+10. **Annual Day**: A college celebration featuring student performances, presentations, exhibitions, and recognition of community achievements.
+11. **Alumni Meet**: A reunion that connects alumni from different batches with current students, faculty, and mentors.
+12. **Blood Donation Camp**: A voluntary donation initiative for students, faculty, and staff that promotes awareness and supports lifesaving healthcare services.
+13. **Excellent Engineering College in Karnataka Award**: Recognition received by SDIT at the 2nd National Karnataka Education Summit & Awards 2016.
+
+Source: [SDIT Events](https://sdit.ac.in/category/events/)

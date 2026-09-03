@@ -174,7 +174,7 @@
   },
   {
     "id": "events_04_college_fests_sambram",
-    "category": "clubs",
+    "category": "events",
     "title": "College Events, Technical Symposia & Annual Cultural Fest 'Sambram'",
     "keywords": ["events", "fests", "sambram", "cultural fest", "technical fest", "workshops", "conferences", "hackathons", "symposia"],
     "questions": [
@@ -185,6 +185,26 @@
     ],
     "content": "### Events, Cultural Fest & Technical Symposia\n\n- **'Sambram' — Annual Cultural Extravaganza**: 'Sambram' is SDIT's flagship inter-collegiate cultural fest celebrated with immense energy. Featuring classical & western group dance, battle of bands, fashion parade, street theatre, beatboxing, and fine arts competitions with participants from colleges across Karnataka and Kerala.\n- **Technical Symposia & Hackathons**: Each engineering branch hosts departmental technical fests featuring 24-hour coding hackathons, web development contests, robotics combat, paper presentations, CAD modeling challenges, and RC aircraft flying competitions.\n- **Workshops & Expert Guest Lectures**: Regular industrial seminars on Generative AI, Cloud DevOps, Cybersecurity, Avionics Systems, and Entrepreneurship.\n- **Event Registrations & Schedules**: Announcements and registration links are published on the college portal at **https://www.sdit.ac.in** and departmental social handles.",
     "source": "SDIT Cultural Committee & Student Affairs"
+  },
+  {
+    "id": "events_04_official_events",
+    "category": "events",
+    "title": "Official Events and Happenings at SDIT",
+    "keywords": ["events", "event", "happenings", "cultural diversity", "sambhram", "surabhi", "samshodhan", "sports meet", "technospark", "graduation day", "orientation programme", "farewell day", "annual day", "alumni meet", "blood donation camp", "excellent engineering college award"],
+    "questions": [
+      "What events and happenings are conducted at SDIT?",
+      "What events are listed on the SDIT website?",
+      "Tell me about SDIT events",
+      "What cultural and technical fests are held at SDIT?",
+      "What is Shree Devi Sambhram?",
+      "What is Surabhi at SDIT?",
+      "What is Samshodhan?",
+      "Tell me about the Annual Sports Meet",
+      "What is Technospark?",
+      "What events are held for students at SDIT?"
+    ],
+    "content": "### Official Events and Happenings at SDIT\n\nThe official SDIT Events page lists these events:\n\n1. **Celebration of Cultural Diversity**: Cultural celebrations such as Krishna Janmashtami, bhajans, skits, dahi handi, Pili Nalike, and Chende performances.\n2. **Shree Devi Sambhram**: A national-level cultural and technical fest offering a two-day platform for creativity, fresh ideas, knowledge, and student talent.\n3. **Surabhi**: An intra-college technical and cultural fest promoting collaboration, teamwork, innovation, and student participation.\n4. **Samshodhan**: A technical project exhibition where students present research, prototypes, and practical applications.\n5. **Annual Sports Meet**: Track and field, team sports, and individual competitions promoting fitness and sportsmanship.\n6. **Technospark**: A state-level science model exhibition for innovative projects and scientific discoveries.\n7. **Graduation Day**: A ceremony marking the completion of students' academic journey and celebrating their achievements.\n8. **Orientation Programme**: An induction event introducing incoming students to the college environment, resources, and academic expectations.\n9. **Farewell Day**: A celebration for graduating students and their college memories.\n10. **Annual Day**: Student performances, presentations, exhibitions, and recognition of college achievements.\n11. **Alumni Meet**: A reunion connecting alumni from different batches with students, faculty, and mentors.\n12. **Blood Donation Camp**: A voluntary donation initiative promoting awareness and supporting lifesaving healthcare services.\n13. **Excellent Engineering College in Karnataka Award**: Recognition received by SDIT at the 2nd National Karnataka Education Summit & Awards 2016.\n\nSource: **https://sdit.ac.in/category/events/**",
+    "source": "SDIT Official Events Page (sdit.ac.in)"
   },
   {
     "id": "events_04_clubs_associations",

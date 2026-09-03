@@ -45,6 +45,11 @@ CATEGORY_KEYWORDS = {
         "lingua nova", "media mavericks", "coders nexus", "sports mania", "cult-mosaic",
         "finance club", "marketing club", "mantra", "hriday", "samarpan", "eco club", "sankalp"
     ],
+    "events": [
+        "event", "events", "happenings", "cultural diversity", "sambhram", "surabhi",
+        "samshodhan", "sports meet", "technospark", "graduation day", "orientation programme",
+        "farewell day", "annual day", "alumni meet", "blood donation camp", "award"
+    ],
     "research": [
         "research", "innovation", "incubation", "patent", "patents", "phd",
         "publication", "publications", "projects", "startup", "startups", "center"

@@ -241,6 +241,10 @@ class KnowledgeRetriever:
             "nexus", "sports", "mania", "cult", "mosaic", "finance", "marketing",
             "mantra", "hriday", "samarpan", "eco", "sankalp"
         ])
+        is_event_query = any(w in query_words for w in [
+            "event", "events", "happenings", "sambhram", "surabhi", "samshodhan",
+            "technospark", "graduation", "orientation", "farewell", "alumni", "award"
+        ]) or "sports meet" in trimmed_query
 
         for idx, chunk in enumerate(self.all_chunks):
             chunk_kws = chunk.get("keywords", [])
@@ -260,6 +264,12 @@ class KnowledgeRetriever:
                 if chunk.get("category") == "clubs":
                     boosted_scores[idx] += 0.35
                 if "club" in chunk_title_lower or "association" in chunk_title_lower:
+                    boosted_scores[idx] += 0.25
+
+            if is_event_query:
+                if chunk.get("category") == "events":
+                    boosted_scores[idx] += 0.45
+                if "event" in chunk_title_lower or "happenings" in chunk_title_lower:
                     boosted_scores[idx] += 0.25
 
             if is_map_or_location:
