@@ -236,6 +236,11 @@ class KnowledgeRetriever:
             "recruit", "recruits", "recruiter", "recruiters", "hiring", "hire",
             "employer", "employers", "company", "companies"
         ])
+        is_club_query = any(w in query_words for w in [
+            "club", "clubs", "lingua", "nova", "media", "mavericks", "coders",
+            "nexus", "sports", "mania", "cult", "mosaic", "finance", "marketing",
+            "mantra", "hriday", "samarpan", "eco", "sankalp"
+        ])
 
         for idx, chunk in enumerate(self.all_chunks):
             chunk_kws = chunk.get("keywords", [])
@@ -249,6 +254,12 @@ class KnowledgeRetriever:
                 if chunk.get("category") == "placements":
                     boosted_scores[idx] += 0.35
                 if any(term in chunk_title_lower for term in ["recruit", "company", "placement"]):
+                    boosted_scores[idx] += 0.25
+
+            if is_club_query:
+                if chunk.get("category") == "clubs":
+                    boosted_scores[idx] += 0.35
+                if "club" in chunk_title_lower or "association" in chunk_title_lower:
                     boosted_scores[idx] += 0.25
 
             if is_map_or_location:

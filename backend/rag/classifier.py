@@ -41,7 +41,9 @@ CATEGORY_KEYWORDS = {
     "clubs": [
         "club", "clubs", "activity", "activities", "extracurricular", "fest",
         "cultural", "sambram", "dance", "music", "robotics", "coding club", "aero club",
-        "nss", "red cross", "event", "events", "hackathon", "student society", "ieee", "csi", "iste"
+        "nss", "red cross", "event", "events", "hackathon", "student society", "ieee", "csi", "iste",
+        "lingua nova", "media mavericks", "coders nexus", "sports mania", "cult-mosaic",
+        "finance club", "marketing club", "mantra", "hriday", "samarpan", "eco club", "sankalp"
     ],
     "research": [
         "research", "innovation", "incubation", "patent", "patents", "phd",

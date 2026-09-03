@@ -189,16 +189,26 @@
   {
     "id": "events_04_clubs_associations",
     "category": "clubs",
-    "title": "Student Clubs, Professional Societies (IEEE, CSI, NSS, Red Cross)",
-    "keywords": ["clubs", "associations", "ieee", "csi", "iste", "nss", "red cross", "robotics club", "coding club", "aero club", "cultural club"],
+    "title": "Official Student Clubs at SDIT",
+    "keywords": ["clubs", "student clubs", "lingua nova", "media mavericks", "coders nexus", "sports mania", "cult mosaic", "cult-mosaic", "finance club", "marketing club", "mantra", "hriday", "hr club", "samarpan", "eco club", "sankalp"],
     "questions": [
       "What student clubs and associations are active at SDIT?",
-      "Is there an IEEE student branch at SDIT?",
-      "Tell me about NSS and Red Cross activities at SDIT",
-      "Are there coding and robotics clubs for students?"
+      "What clubs are present in SDIT?",
+      "Which clubs are available at SDIT?",
+      "Tell me about the clubs at SDIT",
+      "What is Lingua Nova?",
+      "What is Media Mavericks?",
+      "Tell me about Coders Nexus",
+      "What is Sports Mania?",
+      "What is Cult-mosaic?",
+      "Tell me about the Finance Club",
+      "What does the Marketing Club do?",
+      "What is HRiday at SDIT?",
+      "What is Samarpan?",
+      "Tell me about the Eco Club at SDIT"
     ],
-    "content": "### Student Clubs & Associations at SDIT\n\n1. **Technical & Innovation Clubs**:\n   - **Coding & Open-Source Club**: Weekly algorithmic contests, open-source git workshops, and hackathons.\n   - **Robotics & IoT Club**: Arduino, Raspberry Pi, sensor kits, and automated robotics workshops.\n   - **Aeronautical Aero-Design Society**: Drone fabrication, aeromodelling, and glider flight demonstrations.\n2. **Professional Student Chapters**:\n   - **IEEE Student Branch**: Technical conferences, webinars, and global IEEE student competitions.\n   - **Computer Society of India (CSI)**: Workshops on cutting-edge software and networking.\n   - **ISTE (Indian Society for Technical Education)**: Faculty-student collaborative seminars.\n3. **Community & Social Service**:\n   - **National Service Scheme (NSS)**: Village adoption, Swachh Bharat cleanliness drives, literacy camps, and environmental plantation drives.\n   - **Youth Red Cross**: Annual voluntary blood donation camps in collaboration with Mangaluru hospitals.\n4. **Sports & Cultural Societies**: College sports club and music/dance troupes.",
-    "source": "SDIT Student Affairs Directorate"
+    "content": "### Official Student Clubs at SDIT\n\nThe official SDIT clubs page lists these active clubs:\n\n1. **Lingua Nova**: Enhances language proficiency through interactive sessions and workshops in verbal and written communication. It also develops public speaking, negotiation, and business correspondence skills.\n2. **Media Mavericks**: Covers photography, videography, camera techniques, editing software, creative projects, industry trends, and hands-on experience in different media formats.\n3. **Coders Nexus**: Teaches Python, Java, and C++ through coding challenges, hackathons, and software-development workshops for coders of all levels.\n4. **Sports Mania**: Organizes sports activities, friendly matches, and tournaments, including football and volleyball, while promoting fitness, teamwork, and sportsmanship.\n5. **Cult-mosaic**: Promotes diversity and cultural exchange through activities and events that build cultural awareness, understanding, appreciation, unity, and harmony.\n6. **Finance Club**: Explores investment strategies, financial markets, and wealth management while building students' financial skills and insights.\n7. **Marketing Club (MAntra)**: Develops marketing skills through workshops, competitions, and real-world projects, helping students become creative and capable marketers.\n8. **HR (HRiday)**: Nurtures talent and leadership while helping students explore human resources, gain practical skills, and prepare for HR careers.\n9. **Samarpan**: Focuses on compassion, empowerment, social change, and community outreach to help create a more inclusive future.\n10. **Eco Club (Sankalp)**: Works toward a sustainable future through conservation, environmental awareness, and positive action in the community.\n\nSource: **https://sdit.ac.in/clubs/**",
+    "source": "SDIT Official Clubs Page (sdit.ac.in)"
   },
   {
     "id": "fac_05_central_digital_library",
