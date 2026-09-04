@@ -26,6 +26,77 @@ body {
 
 
 /* =====================================================
+   DARK THEME
+===================================================== */
+
+html.dark body {
+  background: #0f1420;
+  color: #f5f6f2;
+}
+
+html.dark [class~="bg-[#f7f8f5]"],
+html.dark [class~="bg-[#fafbf9]"],
+html.dark [class~="bg-[#f9faf8]"] {
+  background-color: #0f1420 !important;
+}
+
+html.dark [class~="bg-white"],
+html.dark [class~="bg-white/95"] {
+  background-color: #171e2e !important;
+}
+
+html.dark [class~="bg-[#fffaf0]"],
+html.dark [class~="bg-[#fffdf8]"],
+html.dark [class~="bg-[#fbfcfb]"] {
+  background-color: #202737 !important;
+}
+
+html.dark [class~="bg-[#f8faf7]"],
+html.dark [class~="bg-[#f3f6f2]"],
+html.dark [class~="bg-[#edf7f0]"],
+html.dark [class~="bg-[#eff8f2]"] {
+  background-color: #202737 !important;
+}
+
+html.dark [class~="bg-gradient-to-br"] {
+  background-image: none !important;
+  background-color: #171e2e !important;
+}
+
+html.dark [class~="text-[#17382b]"],
+html.dark [class~="text-[#46534c]"],
+html.dark [class~="text-[#394740]"],
+html.dark [class~="text-[#445249]"] {
+  color: #f5f6f2 !important;
+}
+
+html.dark [class~="text-[#6f7973]"],
+html.dark [class~="text-[#718079]"],
+html.dark [class~="text-[#98a19c]"],
+html.dark [class~="text-[#a0aaa4]"],
+html.dark [class~="text-[#929b95]"],
+html.dark [class~="text-[#7d8982]"] {
+  color: #aeb7c5 !important;
+}
+
+html.dark [class~="border-[#e1e6df]"],
+html.dark [class~="border-[#dfe4de]"],
+html.dark [class~="border-[#e5ebe4]"],
+html.dark [class~="border-[#e8ebe6]"],
+html.dark [class~="border-[#edf0eb]"],
+html.dark [class~="border-[#e3e8e2]"] {
+  border-color: #2a3346 !important;
+}
+
+html.dark [class~="border-[#dfe5df]"],
+html.dark [class~="border-[#dce3dc]"],
+html.dark [class~="border-[#e2e7e1]"],
+html.dark [class~="border-[#e2e8e2]"] {
+  border-color: #354057 !important;
+}
+
+
+/* =====================================================
    SCROLLBAR
 ===================================================== */
 

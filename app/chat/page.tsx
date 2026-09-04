@@ -14,6 +14,12 @@ import {
 
 import AppShell from "@/components/AppShell";
 import { renderMarkdown } from "@/lib/markdown";
+import {
+  isLanguageCode,
+  LANGUAGE_STORAGE_KEY,
+  subscribeToLanguageChange,
+  type LanguageCode,
+} from "@/lib/language";
 
 interface Message {
   id: number;
@@ -39,6 +45,13 @@ export default function ChatPage() {
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState<LanguageCode>("en");
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (isLanguageCode(stored)) setLanguage(stored);
+    return subscribeToLanguageChange(setLanguage);
+  }, []);
 
   // Read topic from URL
   useEffect(() => {
@@ -81,6 +94,7 @@ export default function ChatPage() {
         },
         body: JSON.stringify({
           question,
+          language,
         }),
       });
 

@@ -1,19 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Languages } from "lucide-react";
+import {
+  isLanguageCode,
+  LANGUAGE_EVENT,
+  LANGUAGE_LABELS,
+  LANGUAGE_STORAGE_KEY,
+  type LanguageCode,
+} from "@/lib/language";
 
-// Architecture note: only English ships in v1. The list below is where
-// Kannada and Malayalam get added once translated strings exist; wiring
-// a translation string table can happen without touching this component.
-const LANGUAGES = [
-  { code: "en", label: "English", available: true },
-  { code: "kn", label: "ಕನ್ನಡ (Kannada)", available: false },
-  { code: "ml", label: "മലയാളം (Malayalam)", available: false },
-];
+const LANGUAGES: LanguageCode[] = ["en", "kn", "ml"];
 
 export default function LanguageSelector() {
   const [open, setOpen] = useState(false);
+  const [language, setLanguage] = useState<LanguageCode>("en");
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (isLanguageCode(stored)) setLanguage(stored);
+  }, []);
+
+  const selectLanguage = (nextLanguage: LanguageCode) => {
+    setLanguage(nextLanguage);
+    setOpen(false);
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+    document.documentElement.lang = nextLanguage;
+    window.dispatchEvent(
+      new CustomEvent<LanguageCode>(LANGUAGE_EVENT, { detail: nextLanguage })
+    );
+  };
 
   return (
     <div className="relative">
@@ -29,31 +45,26 @@ export default function LanguageSelector() {
       {open && (
         <>
           <button
-            className="fixed inset-0 z-10 cursor-default"
+            className="fixed inset-0 z-40 cursor-default"
             aria-hidden="true"
             onClick={() => setOpen(false)}
           />
           <ul
             role="listbox"
-            className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-lg border border-border bg-surface py-1 shadow-lg dark:border-dark-border dark:bg-dark-surface"
+            className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border border-border bg-surface py-1 shadow-lg dark:border-dark-border dark:bg-dark-surface"
           >
             {LANGUAGES.map((lang) => (
-              <li key={lang.code}>
+              <li key={lang}>
                 <button
                   role="option"
-                  aria-selected={lang.code === "en"}
-                  disabled={!lang.available}
-                  onClick={() => setOpen(false)}
-                  className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm ${
-                    lang.available
-                      ? "text-ink hover:bg-black/5 dark:text-white dark:hover:bg-white/10"
-                      : "cursor-not-allowed text-ink-faint dark:text-white/30"
-                  }`}
+                  aria-selected={lang === language}
+                  onClick={() => selectLanguage(lang)}
+                  className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-ink hover:bg-black/5 dark:text-white dark:hover:bg-white/10"
                 >
-                  {lang.label}
-                  {!lang.available && (
+                  {LANGUAGE_LABELS[lang]}
+                  {lang === language && (
                     <span className="text-[0.65rem] uppercase tracking-wide">
-                      Soon
+                      Selected
                     </span>
                   )}
                 </button>

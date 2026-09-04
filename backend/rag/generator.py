@@ -73,7 +73,7 @@ class ResponseGenerator:
         # 1. Check for basic greetings (multilingual)
         for pat in GREETING_PATTERNS:
             if re.search(pat, lower_q):
-                greeting_text = self._build_greeting(user_type, lower_q)
+                greeting_text = self._build_greeting(user_type, lower_q, language)
                 return {
                     "answer": greeting_text,
                     "category": "general",
@@ -124,14 +124,16 @@ class ResponseGenerator:
         # If similarity score is very low and no exact FAQ matched
         if score < MIN_SIMILARITY_SCORE or not best_chunk:
             return {
-                "answer": FALLBACK_MESSAGE,
+                "answer": self._add_friendly_touch(FALLBACK_MESSAGE, detected_category),
                 "category": detected_category,
                 "sources": ["SDIT Administration (sdit.ac.in)"]
             }
 
         # 4. If Gemini API is enabled, use LLM generation grounded in retrieved context
         if self.gemini_client and context_text:
-            llm_answer = self._generate_with_gemini(trimmed, context_text, user_type)
+            llm_answer = self._generate_with_gemini(
+                trimmed, context_text, user_type, language
+            )
             if llm_answer:
                 return {
                     "answer": llm_answer,
@@ -141,16 +143,22 @@ class ResponseGenerator:
 
         # 5. Local structured synthesis (Default offline mode)
         answer = self._synthesize_local(trimmed, retrieval_result, user_type)
+        answer = self._add_friendly_touch(answer, detected_category)
         return {
             "answer": answer,
             "category": detected_category,
             "sources": sources
         }
 
-    def _build_greeting(self, user_type: Optional[str], lower_q: str) -> str:
+    def _build_greeting(
+        self,
+        user_type: Optional[str],
+        lower_q: str,
+        language: Optional[str] = "en",
+    ) -> str:
         """Constructs a customized, friendly greeting."""
-        is_kannada = "ನಮಸ್ಕಾರ" in lower_q or "namaskara" in lower_q
-        is_malayalam = "നമസ്കാരം" in lower_q or "namaskaram" in lower_q
+        is_kannada = language == "kn" or "ನಮಸ್ಕಾರ" in lower_q or "namaskara" in lower_q
+        is_malayalam = language == "ml" or "നമസ്കാരം" in lower_q or "namaskaram" in lower_q
         is_hindi = "नमस्ते" in lower_q or "namaste" in lower_q
 
         if is_kannada:
@@ -242,16 +250,40 @@ class ResponseGenerator:
 
         return content
 
-    def _generate_with_gemini(self, question: str, context: str, user_type: Optional[str]) -> Optional[str]:
+    def _add_friendly_touch(self, answer: str, category: Optional[str]) -> str:
+        """Adds a warm, brief closing to locally synthesized answers."""
+        closings = {
+            "admissions": "Hope that helps with your admission plans! 📚",
+            "courses": "Hope this gives you a clearer picture of the courses! 🎓",
+            "facilities": "Hope you enjoy exploring the campus! 🏫",
+            "placements": "Wishing you the very best with your career journey! 💼",
+            "events": "Hope you have a great time at the campus events! 🎉",
+            "clubs": "There is plenty to discover and enjoy at SDIT! 😊",
+            "research": "Keep exploring and building great ideas! 🔬",
+        }
+        closing = closings.get(category, "I hope that helps! 😊")
+        return f"{answer.rstrip()}\n\n{closing}"
+
+    def _generate_with_gemini(
+        self,
+        question: str,
+        context: str,
+        user_type: Optional[str],
+        language: Optional[str],
+    ) -> Optional[str]:
         """Calls Google Gemini with retrieved SDIT context."""
         try:
             prompt = (
                 "You are SDIT SmartBot, the official friendly AI assistant for Shree Devi Institute of Technology (SDIT), Kenjar, Mangaluru.\n"
                 f"User Persona: {user_type or 'general visitor'}\n"
+                f"Response language: {self._language_name(language)}. Write the complete answer in this language, while keeping official names, codes, phone numbers, URLs, and markdown links unchanged.\n"
                 "Answer the user's question accurately based ONLY on the provided college context.\n"
                 "Formatting Guidelines:\n"
-                "- Write in clear, polite, and welcoming tone.\n"
+                "- Sound like a helpful, approachable friend: warm, natural, and conversational.\n"
+                "- Use contractions and invite follow-up questions when useful.\n"
                 "- Format key details with bullet points and bold headers for readability.\n"
+                "- Use zero to two context-appropriate emojis when they genuinely fit the topic; do not force emojis into every reply.\n"
+                "- Avoid emojis for complaints, sensitive matters, or formal administrative instructions.\n"
                 "- Include relevant official codes (e.g. KCET Code E146) or contacts if applicable.\n"
                 "- Do NOT invent or extrapolate facts not present in the context.\n"
                 "- If the context does not have the answer, politely state that and suggest contacting the college office at 0824-2254103.\n\n"
@@ -270,3 +302,11 @@ class ResponseGenerator:
             print(f"[RAG] Gemini generation error: {e}. Reverting to local knowledge synthesis.")
 
         return None
+
+    @staticmethod
+    def _language_name(language: Optional[str]) -> str:
+        return {
+            "kn": "Kannada (ಕನ್ನಡ)",
+            "ml": "Malayalam (മലയാളം)",
+            "hi": "Hindi (हिन्दी)",
+        }.get(language or "en", "English")

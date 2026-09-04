@@ -27,7 +27,11 @@ import Header from "@/components/Header";
 ========================================================= */
 
 const CAMPUS_IMAGES = [
-  "/hero-bg-1.jpg",
+  "/google-campus-1.jpg",
+  "/google-campus-2.jpg",
+  "/google-campus-3.jpg",
+  "/google-campus-4.jpg",
+  "/google-campus-5.jpg",
   "/hero-bg-2.jpg",
   "/hero-bg-3.jpg",
   "/campus-4.jpg",
@@ -173,7 +177,7 @@ export default function HomePage() {
 
                 <br />
 
-                <span className="text-[#c3942d]">
+                <span className="text-[#8b5e3c]">
                   Connected.
                 </span>
 
@@ -208,7 +212,9 @@ export default function HomePage() {
 
 
                 <Link
-                  href="/about"
+                  href="https://www.google.com/maps/search/?api=1&query=Shree+Devi+Institute+of+Technology+Kenjar+Mangaluru+Karnataka"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl border border-[#dfe4de] bg-white px-5 py-3.5 text-sm font-medium text-[#46534c] transition hover:border-[#d9b24c] hover:bg-[#fffaf0]"
                 >
                   Explore Campus

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Sparkles,
   MessageCircle,
@@ -18,6 +18,13 @@ import {
   Star,
   CircleHelp,
 } from "lucide-react";
+import {
+  isLanguageCode,
+  LANGUAGE_STORAGE_KEY,
+  subscribeToLanguageChange,
+  translate,
+  type LanguageCode,
+} from "@/lib/language";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -43,7 +50,7 @@ const NAVIGATION = [
       {
         label: "Explore Campus",
         description: "Discover SDIT",
-        href: "/about",
+        href: "https://www.google.com/maps/search/?api=1&query=Shree+Devi+Institute+of+Technology+Kenjar+Mangaluru+Karnataka",
         icon: MapPin,
       },
       {
@@ -121,7 +128,15 @@ export default function AppShell({
   renderHeader,
 }: AppShellProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [language, setLanguage] = useState<LanguageCode>("en");
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (isLanguageCode(stored)) setLanguage(stored);
+    return subscribeToLanguageChange(setLanguage);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f7f8f5] text-[#17382b]">
@@ -177,11 +192,11 @@ export default function AppShell({
 
               {/* Logo */}
 
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-[#d9b24c]/40 bg-[#fffaf0]">
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-[#efb8c5]/60 bg-[#fff1f4]">
 
                 <Sparkles
                   size={21}
-                  className="text-[#bd8f2b]"
+                  className="text-[#d97991]"
                 />
 
                 {/* Online indicator */}
@@ -269,7 +284,7 @@ export default function AppShell({
               {/* Section title */}
 
               <p className="mb-2 px-3 text-[9px] font-bold tracking-[0.16em] text-[#9aa39e]">
-                {section.title}
+                {translate(language, section.title)}
               </p>
 
 
@@ -282,17 +297,23 @@ export default function AppShell({
                   const Icon = item.icon;
 
                   const basePath = item.href.split("?")[0];
+                  const topic = new URLSearchParams(
+                    item.href.split("?")[1] ?? ""
+                  ).get("topic");
 
                   const isActive =
-                    basePath === "/"
-                      ? pathname === "/"
-                      : pathname === basePath;
+                    pathname === basePath &&
+                    (topic
+                      ? searchParams.get("topic") === topic
+                      : !searchParams.has("topic"));
 
                   return (
 
                     <Link
                       key={item.label}
                       href={item.href}
+                      target={item.href.startsWith("http") ? "_blank" : undefined}
+                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       onClick={() => setMobileOpen(false)}
                       className={`
                         group relative flex items-center gap-3
@@ -301,7 +322,7 @@ export default function AppShell({
 
                         ${
                           isActive
-                            ? "border-[#e2c875] bg-[#fffaf0]"
+                            ? "border-[#efb8c5] bg-[#fff1f4]"
                             : "border-transparent hover:border-[#e5eae4] hover:bg-[#f8faf7]"
                         }
                       `}
@@ -310,7 +331,7 @@ export default function AppShell({
                       {/* Active indicator */}
 
                       {isActive && (
-                        <span className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full bg-[#c3942d]" />
+                        <span className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full bg-[#d97991]" />
                       )}
 
 
@@ -323,7 +344,7 @@ export default function AppShell({
 
                           ${
                             isActive
-                              ? "bg-[#fdf3d9] text-[#b68725]"
+                              ? "bg-[#fde1e8] text-[#c05a72]"
                               : "bg-[#f3f6f2] text-[#718079] group-hover:bg-[#edf7f0] group-hover:text-[#258355]"
                           }
                         `}
@@ -342,16 +363,16 @@ export default function AppShell({
 
                             ${
                               isActive
-                                ? "text-[#17382b]"
+                                ? "text-[#8f3f55]"
                                 : "text-[#46544d] group-hover:text-[#17382b]"
                             }
                           `}
                         >
-                          {item.label}
+                          {translate(language, item.label)}
                         </p>
 
                         <p className="mt-0.5 truncate text-[9px] text-[#98a19c]">
-                          {item.description}
+                          {translate(language, item.description)}
                         </p>
 
                       </div>

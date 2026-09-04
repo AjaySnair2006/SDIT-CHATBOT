@@ -16,7 +16,7 @@ export default function Header({
   showClear,
 }: HeaderProps) {
   return (
-    <header className="flex items-center justify-between border-b border-border bg-surface/90 px-4 py-3 backdrop-blur lg:px-6 dark:border-dark-border dark:bg-dark-surface/90">
+    <header className="relative z-50 flex items-center justify-between border-b border-border bg-surface/90 px-4 py-3 backdrop-blur lg:px-6 dark:border-dark-border dark:bg-dark-surface/90">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}

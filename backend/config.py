@@ -28,7 +28,7 @@ DOCS_DIR = DATA_DIR / "documents"
 # If no key is set, the system uses high-accuracy local retrieval and template synthesis (100% offline).
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-1.5-flash")
+MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.5-flash")
 
 # RAG / Retrieval Thresholds
 MIN_SIMILARITY_SCORE = float(os.getenv("MIN_SIMILARITY_SCORE", "0.15"))
