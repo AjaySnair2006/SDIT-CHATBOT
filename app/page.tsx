@@ -128,7 +128,7 @@ export default function HomePage() {
         <Header onMenuClick={openMenu} />
       )}
     >
-      <div className="mx-auto max-w-[1450px] px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1450px] px-4 pb-6 pt-2 sm:px-6 lg:px-8">
 
         {/* =====================================================
             HERO SECTION
@@ -136,13 +136,13 @@ export default function HomePage() {
 
         <section className="overflow-hidden rounded-[28px] border border-[#e1e6df] bg-white shadow-[0_10px_40px_rgba(23,56,43,0.06)]">
 
-          <div className="grid min-h-[620px] grid-cols-1 lg:grid-cols-[0.9fr_1.3fr]">
+          <div className="grid min-h-[500px] grid-cols-1 lg:grid-cols-[0.9fr_1.3fr]">
 
             {/* =================================================
                 LEFT HERO CONTENT
             ================================================== */}
 
-            <div className="flex flex-col justify-center px-7 py-12 sm:px-10 lg:px-12">
+            <div className="flex flex-col justify-center px-7 py-8 sm:px-10 lg:px-12">
 
               {/* Status */}
 
@@ -165,7 +165,7 @@ export default function HomePage() {
 
               {/* Heading */}
 
-              <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.03] tracking-tight text-[#17382b] sm:text-6xl lg:text-[68px]">
+              <h1 className="mt-4 font-serif text-5xl font-semibold leading-[1.03] tracking-tight text-[#17382b] sm:text-6xl lg:text-[60px]">
 
                 Your Campus.
 
@@ -186,7 +186,7 @@ export default function HomePage() {
 
               {/* Description */}
 
-              <p className="mt-6 max-w-xl text-base leading-7 text-[#6f7973] sm:text-lg">
+              <p className="mt-5 max-w-xl text-base leading-6 text-[#6f7973] sm:text-lg">
                 One intelligent space to explore SDIT, discover
                 opportunities, and get answers about your campus
                 whenever you need them.
@@ -195,7 +195,7 @@ export default function HomePage() {
 
               {/* Buttons */}
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-wrap gap-3">
 
                 <Link
                   href="/chat"
@@ -225,7 +225,7 @@ export default function HomePage() {
 
               {/* Stats */}
 
-              <div className="mt-10 grid max-w-lg grid-cols-3 border-t border-[#e8ebe6] pt-7">
+              <div className="mt-8 grid max-w-lg grid-cols-3 border-t border-[#e8ebe6] pt-5">
 
                 <div>
 
@@ -274,7 +274,7 @@ export default function HomePage() {
                 RIGHT — 5 PHOTO CAMPUS SLIDER
             ================================================== */}
 
-            <div className="relative min-h-[500px] overflow-hidden bg-[#e8ece7] lg:min-h-[620px]">
+            <div className="relative min-h-[420px] overflow-hidden bg-[#e8ece7] lg:min-h-[500px]">
 
               {/* =================================================
                   MAIN 5 IMAGE SLIDER

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
-  Sparkles,
   MessageCircle,
   MapPin,
   GraduationCap,
@@ -130,6 +129,7 @@ export default function AppShell({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoPreviewOpen, setLogoPreviewOpen] = useState(false);
   const [language, setLanguage] = useState<LanguageCode>("en");
 
   useEffect(() => {
@@ -192,11 +192,27 @@ export default function AppShell({
 
               {/* Logo */}
 
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-[#efb8c5]/60 bg-[#fff1f4]">
+              <div
+                role="button"
+                tabIndex={0}
+                aria-label="View SDIT logo"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setLogoPreviewOpen(true);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setLogoPreviewOpen(true);
+                  }
+                }}
+                className="relative flex h-14 w-14 shrink-0 cursor-zoom-in items-center justify-center rounded-xl border border-[#efb8c5]/60 bg-[#fff1f4]"
+              >
 
-                <Sparkles
-                  size={21}
-                  className="text-[#d97991]"
+                <img
+                  src="/sdit-logo.jpg"
+                  alt="Shree Devi Institute of Technology logo"
+                  className="h-full w-full rounded-xl object-contain"
                 />
 
                 {/* Online indicator */}
@@ -404,6 +420,33 @@ export default function AppShell({
         =========================================== */}
 
       </aside>
+
+      {logoPreviewOpen && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="SDIT logo preview"
+          onClick={() => setLogoPreviewOpen(false)}
+        >
+          <div className="relative max-h-[90vh] max-w-[90vw] rounded-2xl bg-white p-3 shadow-2xl">
+            <button
+              type="button"
+              aria-label="Close logo preview"
+              onClick={() => setLogoPreviewOpen(false)}
+              className="absolute -right-3 -top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-xl text-[#17382b] shadow-lg"
+            >
+              <X size={18} />
+            </button>
+            <img
+              src="/sdit-logo.jpg"
+              alt="Shree Devi Institute of Technology logo"
+              className="max-h-[82vh] max-w-[82vw] rounded-xl object-contain"
+              onClick={(event) => event.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
 
 
       {/* ============================================
