@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   GraduationCap,
   BookOpen,
@@ -87,6 +88,7 @@ const CATEGORIES = [
 
 export default function HomePage() {
   const [activeImage, setActiveImage] = useState(0);
+  const router = useRouter();
 
   /* =======================================================
      AUTO SLIDER
@@ -199,6 +201,8 @@ export default function HomePage() {
 
                 <Link
                   href="/chat"
+                  onMouseEnter={() => router.prefetch("/chat")}
+                  onFocus={() => router.prefetch("/chat")}
                   className="group inline-flex items-center gap-3 rounded-xl bg-[#173c2d] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#20543f]"
                 >
                   Start Chatting

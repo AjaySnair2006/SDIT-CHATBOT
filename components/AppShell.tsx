@@ -6,10 +6,6 @@ import { usePathname, useSearchParams } from "next/navigation";
 import {
   MessageCircle,
   MapPin,
-  GraduationCap,
-  Briefcase,
-  FlaskConical,
-  Users,
   Building2,
   X,
   ChevronRight,
@@ -57,42 +53,6 @@ const NAVIGATION = [
         description: "Labs, library & more",
         href: "/chat?topic=Campus",
         icon: Building2,
-      },
-    ],
-  },
-
-  {
-    title: "INFORMATION",
-    items: [
-      {
-        label: "Admissions",
-        description: "Eligibility & process",
-        href: "/chat?topic=Admissions",
-        icon: GraduationCap,
-      },
-      {
-        label: "Courses",
-        description: "Programs & departments",
-        href: "/chat?topic=Courses",
-        icon: Building2,
-      },
-      {
-        label: "Placements",
-        description: "Training & careers",
-        href: "/chat?topic=Placements",
-        icon: Briefcase,
-      },
-      {
-        label: "Clubs & Activities",
-        description: "Student life",
-        href: "/chat?topic=Clubs",
-        icon: Users,
-      },
-      {
-        label: "Research",
-        description: "Innovation & projects",
-        href: "/chat?topic=Research",
-        icon: FlaskConical,
       },
     ],
   },

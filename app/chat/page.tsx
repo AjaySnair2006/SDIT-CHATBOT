@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 
 import AppShell from "@/components/AppShell";
+import LanguageSelector from "@/components/LanguageSelector";
+import ThemeToggle from "@/components/ThemeToggle";
 import { renderMarkdown } from "@/lib/markdown";
 import {
   isLanguageCode,
@@ -28,6 +30,8 @@ interface Message {
   category?: string;
   sources?: string[];
 }
+
+const CHAT_MESSAGES_STORAGE_KEY = "sdit-chat-messages";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -46,6 +50,45 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<LanguageCode>("en");
+  const [messagesRestored, setMessagesRestored] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = window.sessionStorage.getItem(
+        CHAT_MESSAGES_STORAGE_KEY
+      );
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        if (
+          Array.isArray(parsed) &&
+          parsed.every(
+            (message) =>
+              message &&
+              typeof message.id === "number" &&
+              (message.role === "user" || message.role === "assistant") &&
+              typeof message.content === "string"
+          )
+        ) {
+          setMessages(parsed);
+        }
+      }
+    } catch (error) {
+      console.error("Could not restore chat history:", error);
+    } finally {
+      setMessagesRestored(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!messagesRestored) return;
+
+    window.sessionStorage.setItem(
+      CHAT_MESSAGES_STORAGE_KEY,
+      JSON.stringify(messages)
+    );
+  }, [messages, messagesRestored]);
 
   useEffect(() => {
     const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -153,13 +196,20 @@ export default function ChatPage() {
 
   return (
     <AppShell>
-      <div className="min-h-screen bg-[#f7f8f5] text-[#17382b]">
+      <div className="relative isolate min-h-screen bg-[#f7f8f5] text-[#17382b]">
+
+        <img
+          src="/sdit-logo.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed left-1/2 top-[46%] z-0 w-[min(78vw,520px)] -translate-x-1/2 -translate-y-1/2 opacity-[0.23] blur-sm lg:left-[calc(50%+146px)]"
+        />
 
         {/* ================================
             HEADER
         ================================= */}
 
-        <header className="sticky top-0 z-30 border-b border-[#e3e8e2] bg-white/95 backdrop-blur-md">
+        <header className="sticky top-0 z-50 border-b border-[#e3e8e2] bg-white/95 backdrop-blur-md">
           <div className="mx-auto flex h-[72px] max-w-5xl items-center justify-between px-4 sm:px-6">
 
             <div className="flex items-center gap-3">
@@ -207,6 +257,9 @@ export default function ChatPage() {
               <span className="hidden sm:flex rounded-full border border-[#e2e8e2] bg-[#fafbf9] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#7d8982]">
                 SDIT Knowledge Base
               </span>
+
+              <LanguageSelector />
+              <ThemeToggle />
             </div>
 
           </div>
@@ -217,7 +270,7 @@ export default function ChatPage() {
             CHAT CONTENT
         ================================= */}
 
-        <main className="mx-auto max-w-4xl px-4 pb-44 pt-8 sm:px-6">
+        <main className="relative z-10 mx-auto max-w-4xl px-4 pb-44 pt-8 sm:px-6">
 
           {/* Welcome */}
 
