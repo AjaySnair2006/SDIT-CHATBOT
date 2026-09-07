@@ -61,6 +61,37 @@ class TestSDITSmartBotBackend(unittest.TestCase):
         self.assertIn("HOD", data["answer"])
         print(f"[PASS] Student Leave query: Answer contained HOD leave procedure")
 
+    def test_query_department_specific_only(self):
+        response = self.client.post("/ask", json={"question": "Tell me about the Computer Science and Engineering department"})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("Computer Science", answer)
+        self.assertNotIn("Aeronautical Engineering", answer)
+        self.assertNotIn("Mechanical Engineering", answer)
+        self.assertNotIn("Civil Engineering", answer)
+        self.assertNotIn("MBA", answer)
+        print(f"[PASS] Department query returned only the requested department context")
+
+    def test_query_department_single_department_not_all(self):
+        response = self.client.post("/ask", json={"question": "Tell me about the Aeronautical Engineering department"})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("Aeronautical Engineering", answer)
+        self.assertNotIn("CSE", answer)
+        self.assertNotIn("MBA", answer)
+        self.assertNotIn("Computer Science & Engineering", answer)
+        print(f"[PASS] Aeronautical department query did not include other departments")
+
+    def test_query_year_specific_official_syllabus_pdf(self):
+        response = self.client.post("/ask", json={"question": "Show me the 2021 syllabus PDF for ECE"})
+        self.assertEqual(response.status_code, 200)
+        answer = response.json()["answer"]
+        self.assertIn("ECE 2021 scheme PDF", answer)
+        self.assertIn("https://sdit.ac.in/wp-content/uploads/2024/08/21-Scheme-1.pdf", answer)
+        print(f"[PASS] Year-specific syllabus query returned the official ECE 2021 PDF")
+
     def test_query_grievance(self):
         response = self.client.post("/ask", json={"question": "How do I register a complaint or grievance?"})
         self.assertEqual(response.status_code, 200)

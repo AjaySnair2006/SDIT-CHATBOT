@@ -17,6 +17,61 @@ class KnowledgeRetriever:
     Uses TF-IDF + n-gram representation with cosine similarity and keyword boosting.
     """
 
+    DEPARTMENT_ALIASES = {
+        "computer_science": [
+            "computer science and engineering", "computer science engineering",
+            "cs engineering", "cse", "computer science"
+        ],
+        "aiml": [
+            "artificial intelligence and machine learning", "aiml", "ai and machine learning",
+            "machine learning", "artificial intelligence"
+        ],
+        "ai_ds": [
+            "artificial intelligence and data science", "ai and data science",
+            "data science", "ai ds"
+        ],
+        "ise": [
+            "information science and engineering", "information science engineering",
+            "ise", "information science"
+        ],
+        "ece": [
+            "electronics and communication engineering", "electronics communication engineering",
+            "ece", "electronics and communication", "electronics engineering"
+        ],
+        "aeronautical": [
+            "aeronautical engineering", "aeronautical", "aircraft engineering"
+        ],
+        "mechanical": [
+            "mechanical engineering", "mechanical", "me"
+        ],
+        "civil": [
+            "civil engineering", "civil"
+        ],
+        "mba": [
+            "mba", "master of business administration", "business administration"
+        ],
+        "mca": [
+            "mca", "master of computer applications", "computer applications"
+        ],
+        "mtech": [
+            "mtech", "m tech", "master of technology", "construction technology", "construction tech"
+        ],
+    }
+
+    DEPARTMENT_TITLE_ALIASES = {
+        "computer_science": ["computer science and engineering"],
+        "aiml": ["artificial intelligence and machine learning", "aiml"],
+        "ai_ds": ["artificial intelligence and data science", "ai ds"],
+        "ise": ["information science and engineering"],
+        "ece": ["electronics and communication engineering"],
+        "aeronautical": ["aeronautical engineering"],
+        "mechanical": ["mechanical engineering"],
+        "civil": ["civil engineering"],
+        "mba": ["business administration", "mba"],
+        "mca": ["computer applications", "mca"],
+        "mtech": ["m tech and ph d research centers", "master of technology", "construction technology"],
+    }
+
     def __init__(self):
         self.knowledge_items: list[dict[str, Any]] = []
         self.faq_items: list[dict[str, Any]] = []
@@ -116,7 +171,7 @@ class KnowledgeRetriever:
 
     def _parse_markdown_into_passages(self, filename: str, content: str):
         """Splits markdown file into sections by headings."""
-        sections = re.split(r"\n(?=##?\s)", content)
+        sections = re.split(r"\n(?=#+\s)", content)
         for i, sec in enumerate(sections):
             sec_trimmed = sec.strip()
             if not sec_trimmed:
@@ -155,6 +210,89 @@ class KnowledgeRetriever:
                 "keywords": [w.lower() for w in re.findall(r"\w+", title)]
             })
 
+    def _detect_department(self, query: str) -> Optional[str]:
+        """Returns the most relevant department key if the question is department-specific."""
+        normalized = re.sub(r"[^a-z0-9&\s]", " ", query.lower())
+        normalized = re.sub(r"\s+", " ", normalized).strip()
+
+        aliases = [
+            (alias, dept_key)
+            for dept_key, department_aliases in self.DEPARTMENT_ALIASES.items()
+            for alias in department_aliases
+        ]
+        for alias, dept_key in sorted(aliases, key=lambda item: len(item[0]), reverse=True):
+            if self._alias_matches(alias, normalized):
+                return dept_key
+        return None
+
+    @staticmethod
+    def _alias_matches(alias: str, text: str) -> bool:
+        """Matches aliases as complete words, avoiding collisions such as `me` in `tell me`."""
+        normalized_alias = re.sub(r"[^a-z0-9]+", " ", alias.lower().replace("&", " and ")).strip()
+        normalized_text = re.sub(r"[^a-z0-9]+", " ", text.lower().replace("&", " and ")).strip()
+        pattern = rf"(?<![a-z0-9]){re.escape(normalized_alias)}(?![a-z0-9])"
+        return re.search(pattern, normalized_text) is not None
+
+    def _department_title_matches(self, chunk: dict[str, Any], dept_key: str) -> bool:
+        title = chunk.get("title", "")
+        return any(
+            self._alias_matches(alias, title)
+            for alias in self.DEPARTMENT_TITLE_ALIASES.get(dept_key, [])
+        )
+
+    def _chunk_department_hits(self, chunk: dict[str, Any]) -> set[str]:
+        """Returns which department keys are explicitly mentioned in a chunk."""
+        text = " ".join([
+            chunk.get("title", ""),
+            chunk.get("content", ""),
+            " ".join(chunk.get("keywords", [])),
+            chunk.get("source", "")
+        ]).lower()
+
+        hits: set[str] = set()
+        for dept_key, aliases in self.DEPARTMENT_ALIASES.items():
+            for alias in aliases:
+                if self._alias_matches(alias, text):
+                    hits.add(dept_key)
+                    break
+        return hits
+
+    def _department_match_score(self, chunk: dict[str, Any], dept_key: str) -> int:
+        """Scores whether a chunk is genuinely about the requested department."""
+        text = " ".join([
+            chunk.get("title", ""),
+            chunk.get("content", ""),
+            " ".join(chunk.get("keywords", [])),
+            chunk.get("source", "")
+        ]).lower()
+
+        score = 0
+        for alias in self.DEPARTMENT_ALIASES.get(dept_key, []):
+            if self._alias_matches(alias, text):
+                score += 5
+
+        other_hits = self._chunk_department_hits(chunk) - {dept_key}
+        if other_hits:
+            score -= 10 + len(other_hits) * 3
+
+        if "all departments" in text or "department details" in text:
+            score -= 8
+        if "undergraduate (b.e" in text and "computer science" in text and "mba" in text:
+            score -= 12
+        if "heads of departments" in text and len(other_hits) > 0:
+            score -= 10
+
+        if dept_key == "computer_science" and self._alias_matches("computer science & engineering", text):
+            score += 2
+        if dept_key == "aeronautical" and self._alias_matches("aeronautical engineering", text):
+            score += 2
+        if dept_key == "mba" and self._alias_matches("master of business administration", text):
+            score += 2
+        if dept_key == "mca" and self._alias_matches("master of computer applications", text):
+            score += 2
+
+        return score
+
     def search(self, query: str, top_k: int = TOP_K_DOCUMENTS) -> dict[str, Any]:
         """
         Retrieves top matching knowledge chunks for the query.
@@ -170,6 +308,8 @@ class KnowledgeRetriever:
                 "context_text": "",
                 "score": 0.0
             }
+
+        target_department = self._detect_department(trimmed_query)
 
         # 1. Fast check for high-confidence FAQ exact/near match
         clean_q = re.sub(r"[^\w\s]", "", trimmed_query)
@@ -248,6 +388,22 @@ class KnowledgeRetriever:
             "technospark", "graduation", "orientation", "farewell", "alumni", "award"
         ]) or "sports meet" in trimmed_query
 
+        if target_department:
+            for idx, chunk in enumerate(self.all_chunks):
+                hits = self._chunk_department_hits(chunk)
+                if target_department not in hits:
+                    if hits:
+                        boosted_scores[idx] -= 0.8
+                    continue
+
+                boosted_scores[idx] += 2.2
+                other_hits = hits - {target_department}
+                if other_hits:
+                    boosted_scores[idx] -= 0.8 * len(other_hits)
+
+                if self._department_title_matches(chunk, target_department):
+                    boosted_scores[idx] += 5.0
+
         for idx, chunk in enumerate(self.all_chunks):
             chunk_kws = chunk.get("keywords", [])
             overlap = query_words.intersection(chunk_kws)
@@ -300,6 +456,23 @@ class KnowledgeRetriever:
 
         # Sort indices by score descending
         sorted_indices = np.argsort(boosted_scores)[::-1]
+        if target_department:
+            department_indices = []
+            for idx in sorted_indices:
+                chunk = self.all_chunks[int(idx)]
+                hits = self._chunk_department_hits(chunk)
+                if target_department not in hits:
+                    continue
+
+                if not hits or target_department not in hits:
+                    continue
+
+                if self._department_title_matches(chunk, target_department):
+                    department_indices.append(int(idx))
+
+            if department_indices:
+                sorted_indices = np.array(department_indices)
+
         if is_event_query:
             official_event_indices = [
                 idx for idx, chunk in enumerate(self.all_chunks)
@@ -334,6 +507,8 @@ class KnowledgeRetriever:
 
         best_chunk = top_chunks[0] if top_chunks else None
         best_score = best_chunk["score"] if best_chunk else 0.0
+        if target_department and best_chunk:
+            best_score = max(best_score, float(MIN_SIMILARITY_SCORE))
         primary_category = categories[0] if categories else "general"
 
         # Combine context passages
