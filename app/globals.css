@@ -26,6 +26,71 @@ body {
 
 
 /* =====================================================
+   CHAT ANSWER TYPOGRAPHY
+===================================================== */
+
+.prose-chat {
+  overflow-wrap: anywhere;
+}
+
+.prose-chat p {
+  margin: 0.35rem 0 0.8rem;
+}
+
+.prose-chat p:first-child {
+  margin-top: 0;
+}
+
+.prose-chat p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-chat h2,
+.prose-chat h3,
+.prose-chat h4 {
+  color: #17382b;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.prose-chat h2 {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+}
+
+.prose-chat h3 {
+  margin: 1rem 0 0.45rem;
+  font-size: 0.95rem;
+}
+
+.prose-chat h4 {
+  margin: 0.8rem 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.prose-chat ul,
+.prose-chat ol {
+  margin: 0.4rem 0 0.85rem;
+  padding-left: 1.25rem;
+}
+
+.prose-chat li {
+  margin: 0.35rem 0;
+  padding-left: 0.15rem;
+}
+
+.prose-chat a {
+  overflow-wrap: anywhere;
+}
+
+html.dark .prose-chat h2,
+html.dark .prose-chat h3,
+html.dark .prose-chat h4 {
+  color: #f5f6f2;
+}
+
+
+/* =====================================================
    DARK THEME
 ===================================================== */
 

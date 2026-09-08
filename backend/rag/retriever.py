@@ -1,13 +1,30 @@
 import json
 import re
+from hashlib import sha256
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import urlparse
+from urllib.request import Request, urlopen
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from config import DATA_DIR, DOCS_DIR, FAQ_FILE, KNOWLEDGE_FILE, TOP_K_DOCUMENTS, MIN_SIMILARITY_SCORE
+from config import (
+    DOCS_DIR,
+    FAQ_FILE,
+    KNOWLEDGE_FILE,
+    MIN_SIMILARITY_SCORE,
+    PDF_CACHE_DIR,
+    PDF_DOWNLOAD_ENABLED,
+    PDF_DOWNLOAD_TIMEOUT,
+    TOP_K_DOCUMENTS,
+)
+
+try:
+    from pypdf import PdfReader
+except ImportError:  # pragma: no cover - dependency installation is environment-specific
+    PdfReader = None
 
 
 class KnowledgeRetriever:
@@ -76,6 +93,7 @@ class KnowledgeRetriever:
         self.knowledge_items: list[dict[str, Any]] = []
         self.faq_items: list[dict[str, Any]] = []
         self.doc_passages: list[dict[str, Any]] = []
+        self.pdf_passages: list[dict[str, Any]] = []
         self.all_chunks: list[dict[str, Any]] = []
 
         self.vectorizer: Optional[TfidfVectorizer] = None
@@ -88,7 +106,10 @@ class KnowledgeRetriever:
         self.knowledge_items = []
         self.faq_items = []
         self.doc_passages = []
+        self.pdf_passages = []
         self.all_chunks = []
+
+        linked_pdf_urls: set[str] = set()
 
         # 1. Load Knowledge JSON
         if KNOWLEDGE_FILE.exists():
@@ -113,8 +134,11 @@ class KnowledgeRetriever:
                     with open(doc_path, "r", encoding="utf-8") as f:
                         text = f.read()
                         self._parse_markdown_into_passages(doc_path.name, text)
+                        linked_pdf_urls.update(re.findall(r"https?://[^)\s]+\.pdf(?:\?[^)\s]+)?", text, re.IGNORECASE))
                 except Exception as e:
                     print(f"[Warning] Failed to read {doc_path}: {e}")
+
+        self._load_pdf_documents(linked_pdf_urls)
 
         # Build combined chunk list for search
         # From knowledge items:
@@ -133,6 +157,7 @@ class KnowledgeRetriever:
                 "title": item.get("title", "SDIT Knowledge Base"),
                 "content": item.get("content", ""),
                 "source": item.get("source", "SDIT Knowledge Base"),
+                "citation": item.get("source", "SDIT Knowledge Base"),
                 "search_text": search_text,
                 "keywords": [kw.lower() for kw in item.get("keywords", [])]
             })
@@ -147,6 +172,7 @@ class KnowledgeRetriever:
                 "title": faq.get("question", "FAQ"),
                 "content": faq.get("answer", ""),
                 "source": faq.get("source", "SDIT FAQs"),
+                "citation": faq.get("source", "SDIT FAQs"),
                 "search_text": search_text,
                 "question": faq.get("question", "").lower(),
                 "keywords": [w.lower() for w in re.findall(r"\w+", faq.get("question", ""))]
@@ -154,6 +180,10 @@ class KnowledgeRetriever:
 
         # From document passages:
         for passage in self.doc_passages:
+            self.all_chunks.append(passage)
+
+        # From page-level PDF passages:
+        for passage in self.pdf_passages:
             self.all_chunks.append(passage)
 
         # Build Vectorizer
@@ -165,7 +195,10 @@ class KnowledgeRetriever:
                 sublinear_tf=True
             )
             self.tfidf_matrix = self.vectorizer.fit_transform(corpus)
-            print(f"[RAG] Successfully indexed {len(self.all_chunks)} knowledge chunks from SDIT dataset.")
+            print(
+                f"[RAG] Successfully indexed {len(self.all_chunks)} knowledge chunks "
+                f"({len(self.pdf_passages)} PDF pages) from SDIT dataset."
+            )
         else:
             print("[RAG] Warning: No dataset documents found to index.")
 
@@ -209,6 +242,78 @@ class KnowledgeRetriever:
                 "search_text": sec_trimmed,
                 "keywords": [w.lower() for w in re.findall(r"\w+", title)]
             })
+
+    @staticmethod
+    def _category_for_filename(filename: str) -> str:
+        lower_name = filename.lower()
+        if "admission" in lower_name:
+            return "admissions"
+        if "event" in lower_name:
+            return "events"
+        if "course" in lower_name or "syllabus" in lower_name or "scheme" in lower_name:
+            return "courses"
+        if "facility" in lower_name or "campus" in lower_name:
+            return "campus"
+        if "placement" in lower_name:
+            return "placements"
+        if "club" in lower_name:
+            return "clubs"
+        return "general"
+
+    def _load_pdf_documents(self, linked_pdf_urls: set[str]):
+        """Indexes local PDFs and downloadable PDF links as page-level passages."""
+        if PdfReader is None:
+            print("[Warning] pypdf is unavailable; PDF indexing is disabled.")
+            return
+
+        local_pdfs = sorted(DOCS_DIR.rglob("*.pdf")) if DOCS_DIR.exists() else []
+        for pdf_path in local_pdfs:
+            self._parse_pdf_into_passages(pdf_path, f"SDIT PDF: {pdf_path.name}")
+
+        if not PDF_DOWNLOAD_ENABLED:
+            return
+
+        for url in sorted(linked_pdf_urls):
+            parsed_name = Path(urlparse(url).path).name or "sdit-document.pdf"
+            cache_name = f"{sha256(url.encode('utf-8')).hexdigest()[:12]}-{parsed_name}"
+            cached_path = PDF_CACHE_DIR / cache_name
+            try:
+                if not cached_path.exists():
+                    PDF_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+                    request = Request(url, headers={"User-Agent": "SDIT-SmartBot/1.0"})
+                    with urlopen(request, timeout=PDF_DOWNLOAD_TIMEOUT) as response:
+                        cached_path.write_bytes(response.read())
+                self._parse_pdf_into_passages(cached_path, f"SDIT PDF: {parsed_name}", url)
+            except Exception as e:
+                print(f"[Warning] Could not index PDF {url}: {e}")
+
+    def _parse_pdf_into_passages(self, pdf_path: Path, source: str, url: Optional[str] = None):
+        """Extracts one searchable passage per PDF page and preserves page citations."""
+        try:
+            reader = PdfReader(str(pdf_path))
+            category = self._category_for_filename(pdf_path.name)
+            for page_number, page in enumerate(reader.pages, start=1):
+                text = re.sub(r"\s+", " ", page.extract_text() or "").strip()
+                if not text or not re.search(r"\w", text):
+                    continue
+
+                citation = f"{source}, page {page_number}"
+                title = f"{pdf_path.stem} - page {page_number}"
+                self.pdf_passages.append({
+                    "type": "pdf",
+                    "id": f"pdf_{pdf_path.stem}_{page_number}",
+                    "category": category,
+                    "title": title,
+                    "content": text,
+                    "source": source,
+                    "citation": citation,
+                    "page": page_number,
+                    "url": url,
+                    "search_text": f"{title} {text}",
+                    "keywords": [w.lower() for w in re.findall(r"\w+", pdf_path.stem)],
+                })
+        except Exception as e:
+            print(f"[Warning] Failed to parse PDF {pdf_path}: {e}")
 
     def _detect_department(self, query: str) -> Optional[str]:
         """Returns the most relevant department key if the question is department-specific."""
@@ -347,6 +452,7 @@ class KnowledgeRetriever:
                         "content": faq.get("answer", ""),
                         "category": faq.get("category", "general"),
                         "source": faq.get("source", "SDIT FAQs"),
+                        "citation": faq.get("source", "SDIT FAQs"),
                         "score": 1.0
                     }],
                     "best_chunk": {
@@ -354,6 +460,7 @@ class KnowledgeRetriever:
                         "content": faq.get("answer", ""),
                         "category": faq.get("category", "general"),
                         "source": faq.get("source", "SDIT FAQs"),
+                        "citation": faq.get("source", "SDIT FAQs"),
                         "score": 1.0
                     },
                     "category": faq.get("category", "general"),
@@ -366,9 +473,28 @@ class KnowledgeRetriever:
         query_vec = self.vectorizer.transform([trimmed_query])
         similarities = cosine_similarity(query_vec, self.tfidf_matrix).flatten()
 
-        # 3. Apply keyword bonuses and single-topic disambiguation
+        # 3. Combine vector similarity with lexical keyword coverage.
         query_words = set(re.findall(r"\w+", trimmed_query))
-        boosted_scores = np.copy(similarities)
+        keyword_scores = np.zeros(len(self.all_chunks), dtype=float)
+        for idx, chunk in enumerate(self.all_chunks):
+            searchable_text = " ".join([
+                chunk.get("title", ""),
+                chunk.get("content", ""),
+                " ".join(chunk.get("keywords", [])),
+            ]).lower()
+            matched_words = {
+                word for word in query_words
+                if len(word) > 1 and re.search(rf"(?<![a-z0-9]){re.escape(word)}(?![a-z0-9])", searchable_text)
+            }
+            keyword_scores[idx] = len(matched_words) / max(len(query_words), 1)
+            if trimmed_query in searchable_text:
+                keyword_scores[idx] = min(1.0, keyword_scores[idx] + 0.25)
+
+        # Vector similarity handles related phrasing; lexical coverage protects
+        # exact codes, years, branch names, and PDF page-specific terminology.
+        boosted_scores = (0.65 * similarities) + (0.35 * keyword_scores)
+
+        # 4. Apply keyword bonuses and single-topic disambiguation
 
         is_mission_only = "mission" in query_words and "vision" not in query_words and "history" not in query_words
         is_vision_only = "vision" in query_words and "mission" not in query_words
@@ -498,10 +624,13 @@ class KnowledgeRetriever:
                 "content": chunk.get("content"),
                 "category": chunk.get("category"),
                 "source": chunk.get("source"),
+                "citation": chunk.get("citation", chunk.get("source")),
+                "page": chunk.get("page"),
+                "url": chunk.get("url"),
                 "score": round(score, 4)
             })
-            if chunk.get("source"):
-                sources.add(chunk.get("source"))
+            if chunk.get("citation") or chunk.get("source"):
+                sources.add(chunk.get("citation", chunk.get("source")))
             if chunk.get("category"):
                 categories.append(chunk.get("category"))
 
@@ -514,7 +643,9 @@ class KnowledgeRetriever:
         # Combine context passages
         context_parts = []
         for c in top_chunks:
-            context_parts.append(f"### {c['title']}\n{c['content']}")
+            context_parts.append(
+                f"### {c['title']}\nSource: {c.get('citation', c.get('source'))}\n{c['content']}"
+            )
         context_text = "\n\n".join(context_parts)
 
         return {

@@ -127,6 +127,20 @@ export function renderMarkdown(content: string): React.ReactNode {
       continue;
     }
 
+    const headingMatch = line.match(/^(#{2,4})\s+(.*)/);
+    if (headingMatch) {
+      flushParagraph();
+      flushList();
+      const [, hashes, heading] = headingMatch;
+      const HeadingTag = hashes.length === 2 ? "h2" : hashes.length === 3 ? "h3" : "h4";
+      blocks.push(
+        <HeadingTag key={`heading-${blocks.length}`}>
+          {renderInline(heading, `heading-${blocks.length}`)}
+        </HeadingTag>
+      );
+      continue;
+    }
+
     // Check for interactive Google Map embed tag: [map:URL] or [map:URL|Title]
     const mapMatch = line.match(/^\[map:([^\]|]+)(?:\|([^\]]+))?\]$/i);
     if (mapMatch) {

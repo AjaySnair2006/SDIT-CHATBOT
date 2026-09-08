@@ -59,15 +59,19 @@
   {
     "id": "col_01_accreditation_rankings_achievements",
     "category": "general",
-    "title": "Accreditation, Approvals, Rankings and Achievements",
-    "keywords": ["accreditation", "approvals", "vtu", "aicte", "recognition", "achievements", "rankings", "awards"],
+    "title": "College Rankings, Awards and Institutional Achievements",
+    "keywords": ["college ranking", "institutional ranking", "rankings", "nirf", "nirf 2026", "award", "awards", "achievement", "achievements", "excellent engineering college", "national karnataka education summit", "cmai"],
     "questions": [
-      "Is SDIT approved by AICTE and affiliated to VTU?",
-      "What accreditations and recognitions does SDIT hold?",
-      "What are the major achievements and rankings of SDIT?"
+      "What is SDIT's college ranking?",
+      "Does SDIT have an institutional ranking?",
+      "What are the major college-level achievements and awards of SDIT?",
+      "Has SDIT received an award for being an excellent engineering college?",
+      "Is SDIT listed in NIRF?",
+      "What NIRF information has SDIT published?",
+      "Is SDIT approved by AICTE and affiliated to VTU?"
     ],
-    "content": "### Accreditations & Recognitions\n\n- **University Affiliation**: Affiliated to **Visvesvaraya Technological University (VTU)**, Belagavi, Karnataka.\n- **Statutory Approval**: Approved by the **All India Council for Technical Education (AICTE)**, New Delhi.\n- **Government Recognition**: Recognized by the **Government of Karnataka**.\n- **Research Centre**: Recognized by VTU as an official Research Centre for Ph.D. and M.Sc. (Engg.) research programs.\n\n**Key Achievements**:\n- Consistent top university ranks in VTU examinations in engineering and management programs.\n- Recognized for outstanding student innovations, including national aerospace design awards and smart hackathon finalists.\n- Strong industry MOUs and high campus placement conversion rates across leading MNCs.",
-    "source": "SDIT Official Bulletin (sdit.ac.in)"
+    "content": "### College Rankings, Awards and Institutional Achievements\n\n**Published ranking information**:\n- SDIT's official website links to an **NIRF 2026** page with institutional submission documents for **Engineering**, **Management**, and **Overall** categories. The page provides these documents but does not state a numerical NIRF rank, so the chatbot should not claim that SDIT has a published NIRF position.\n- Official NIRF page: [NIRF 2026](https://sdit.ac.in/nirf-2026/)\n- [NIRF 2026 Engineering submission](https://sdit.ac.in/wp-content/uploads/2026/04/Shree-Devi-Institute-of-Technology-MANGALORE20260404-Eng.pdf)\n- [NIRF 2026 Management submission](https://sdit.ac.in/wp-content/uploads/2026/04/Shree-Devi-Institute-of-Technology-MANGALORE20260404-Mng.pdf)\n- [NIRF 2026 Overall submission](https://sdit.ac.in/wp-content/uploads/2026/04/Shree-Devi-Institute-of-Technology-MANGALORE20260404-Ovr.pdf)\n\n**College-level award**:\n- SDIT was conferred the award **“Excellent Engineering College in Karnataka”** at the **2nd National Karnataka Education Summit & Awards 2016**, organized by **Visvesvaraya Technological University (VTU), Belagavi**, in association with the **CMAI Association of India**. The award function was held on **14 March 2016** at the VTU Center for PG Studies, Muddenahalli, Bengaluru. The official report says the award recognized excellence in infrastructure, teaching, industry-academia interface, and placement efforts.\n- [Official award announcement](https://sdit.ac.in/prestigious-award-for-excellent-engineering-college-in-karnataka-to-shree-devi-institute-of-technology-kenjar-mangalore-2/)\n\n**Accreditations and recognitions**:\n- **University Affiliation**: Affiliated to **Visvesvaraya Technological University (VTU)**, Belagavi, Karnataka.\n- **Statutory Approval**: Approved by the **All India Council for Technical Education (AICTE)**, New Delhi.\n- **Research Centre**: Recognized by VTU as an official Research Centre for Ph.D. and M.Sc. (Engg.) research programs.",
+    "source": "SDIT Official Website: NIRF 2026 and institutional award announcement (sdit.ac.in)"
   },
   {
     "id": "col_01_campus_map_overview",

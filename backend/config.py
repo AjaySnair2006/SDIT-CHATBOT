@@ -22,6 +22,9 @@ DATA_DIR = BACKEND_DIR / "data"
 KNOWLEDGE_FILE = DATA_DIR / "sdit_knowledge.json"
 FAQ_FILE = DATA_DIR / "sdit_faq.json"
 DOCS_DIR = DATA_DIR / "documents"
+PDF_CACHE_DIR = DATA_DIR / "pdf_cache"
+PDF_DOWNLOAD_ENABLED = os.getenv("PDF_DOWNLOAD_ENABLED", "true").lower() == "true"
+PDF_DOWNLOAD_TIMEOUT = int(os.getenv("PDF_DOWNLOAD_TIMEOUT", "10"))
 
 # AI / LLM Configuration (Optional)
 # If GEMINI_API_KEY or OPENAI_API_KEY is provided, RAG will generate synthesized responses.
